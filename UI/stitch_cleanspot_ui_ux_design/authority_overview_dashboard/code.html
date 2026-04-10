@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CleanSpot Authority Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed-dim": "#adc6ff",
+                    "on-primary": "#002e6a",
+                    "inverse-surface": "#dae2fd",
+                    "surface-container-highest": "#2d3449",
+                    "on-tertiary": "#3c0091",
+                    "tertiary": "#d0bcff",
+                    "on-tertiary-fixed": "#23005c",
+                    "secondary-container": "#00a572",
+                    "primary-fixed": "#d8e2ff",
+                    "primary": "#adc6ff",
+                    "tertiary-fixed": "#e9ddff",
+                    "primary-container": "#4d8eff",
+                    "surface-container-low": "#131b2e",
+                    "secondary-fixed-dim": "#4edea3",
+                    "on-error": "#690005",
+                    "outline": "#8c909f",
+                    "on-tertiary-fixed-variant": "#5516be",
+                    "on-surface-variant": "#c2c6d6",
+                    "on-primary-container": "#00285d",
+                    "on-background": "#dae2fd",
+                    "secondary-fixed": "#6ffbbe",
+                    "surface-bright": "#31394d",
+                    "on-secondary-fixed": "#002113",
+                    "background": "#0b1326",
+                    "surface-container": "#171f33",
+                    "on-secondary-fixed-variant": "#005236",
+                    "on-secondary": "#003824",
+                    "secondary": "#4edea3",
+                    "inverse-primary": "#005ac2",
+                    "on-tertiary-container": "#340080",
+                    "on-error-container": "#ffdad6",
+                    "inverse-on-surface": "#283044",
+                    "error": "#ffb4ab",
+                    "surface-container-high": "#222a3d",
+                    "on-primary-fixed-variant": "#004395",
+                    "error-container": "#93000a",
+                    "on-surface": "#dae2fd",
+                    "surface-dim": "#0b1326",
+                    "on-secondary-container": "#00311f",
+                    "tertiary-container": "#a078ff",
+                    "surface": "#0b1326",
+                    "surface-tint": "#adc6ff",
+                    "outline-variant": "#424754",
+                    "on-primary-fixed": "#001a42",
+                    "tertiary-fixed-dim": "#d0bcff",
+                    "surface-container-lowest": "#060e20",
+                    "surface-variant": "#2d3449"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #0b1326;
+            font-family: 'Inter', sans-serif;
+        }
+        .glass-panel {
+            background: rgba(45, 52, 73, 0.6);
+            backdrop-filter: blur(24px);
+        }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- SideNavBar (Authority View) -->
+<aside class="h-screen w-64 fixed left-0 top-0 hidden md:flex flex-col bg-[#0b1326] dark:bg-[#0b1326] font-['Inter'] text-sm tracking-wide shadow-[32px_0_48px_-20px_rgba(0,26,66,0.08)] z-50">
+<div class="flex flex-col h-full py-8 px-4">
+<div class="mb-10 px-2">
+<span class="text-xl font-black tracking-tighter text-[#adc6ff]">CleanSpot</span>
+<p class="text-xs text-slate-500 uppercase tracking-widest mt-1">City Management</p>
+</div>
+<nav class="flex-1 space-y-1">
+<!-- Overview is Active -->
+<a class="flex items-center space-x-3 px-4 py-3 rounded-xl text-[#adc6ff] font-bold border-r-2 border-[#adc6ff] bg-[#171f33] transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Overview</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-[#171f33] transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span>Live Map</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-[#171f33] transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="table_chart">table_chart</span>
+<span>Reports Table</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-[#171f33] transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span>Volunteers</span>
+</a>
+</nav>
+<div class="mt-auto pt-8 border-t border-[#2d3449]/30 space-y-1">
+<button class="w-full mb-6 bg-gradient-to-br from-[#adc6ff] to-[#4d8eff] text-on-primary-fixed font-bold py-3 px-4 rounded-xl flex items-center justify-center space-x-2 shadow-lg shadow-primary/10">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+<span>New Dispatch</span>
+</button>
+<a class="flex items-center space-x-3 px-4 py-3 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-[#171f33] transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-[#171f33] transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>Logout</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-40 md:pl-64 bg-[#0b1326]/60 backdrop-blur-xl transition-all duration-300">
+<div class="flex justify-between items-center h-16 px-8">
+<div class="flex items-center">
+<h1 class="text-lg font-black text-[#adc6ff] md:hidden">CleanSpot</h1>
+<div class="hidden md:block">
+<span class="text-on-surface-variant font-medium">Dashboard / </span>
+<span class="text-on-surface font-bold">Overview</span>
+</div>
+</div>
+<div class="flex items-center space-x-6">
+<div class="hidden lg:flex items-center bg-surface-container-lowest px-4 py-2 rounded-full border border-outline-variant/15">
+<span class="material-symbols-outlined text-outline text-sm mr-2" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-48 text-on-surface placeholder:text-outline" placeholder="Search reports..." type="text"/>
+</div>
+<div class="flex items-center space-x-4">
+<button class="text-slate-400 hover:opacity-80 relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-tertiary rounded-full"></span>
+</button>
+<div class="flex items-center space-x-3 pl-4 border-l border-outline-variant/30">
+<div class="text-right hidden sm:block">
+<p class="text-xs font-bold text-on-surface">Admin Smith</p>
+<p class="text-[10px] text-tertiary-container uppercase tracking-tighter">Authority Admin</p>
+</div>
+<img alt="Authority Admin" class="w-8 h-8 rounded-full border-2 border-tertiary-container/30 object-cover" data-alt="professional headshot of a mature city official in a suit with a confident and approachable expression, studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAJzUv6O_l5VMyIBLo79twNSkfWYhKAbiokMpL3Ui0mVJDOffrCMz9jil_ZZwODaT1TNVKkRpakLJRuUVtbrlIiIdFLozQ013X9W-SyYGHrJET51AWcYA6HAFBNO247BYr5tICIP345bY3JDhEo2VenS7e8ByZXgm5fjCGhuOrVqQ_t1VDAC02-xzDshTWB3zlOeyToRqmH_KcPicKXfWaZtm6hrsZMDeclSL3WjFVQIFv_5DtvnhDbDZnVFp28diF987x4jq_d9Wm"/>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="md:ml-64 pt-24 pb-24 md:pb-8 px-6 lg:px-10">
+<!-- Stats Section: Grid Layout -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+<!-- Card 1 -->
+<div class="bg-surface-container-low rounded-[1.5rem] p-6 shadow-sm border border-outline-variant/5">
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 rounded-xl bg-tertiary/10 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined" data-icon="report">report</span>
+</div>
+<span class="text-secondary font-bold text-xs flex items-center bg-secondary-container/10 px-2 py-1 rounded">
+<span class="material-symbols-outlined text-[14px] mr-1" data-icon="trending_up">trending_up</span>
+                        +5%
+                    </span>
+</div>
+<h3 class="text-on-surface-variant text-sm font-medium">Total Reported</h3>
+<p class="text-3xl font-black tracking-tight mt-1">1,284</p>
+<div class="mt-4 h-1 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-3/4"></div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-low rounded-[1.5rem] p-6 shadow-sm border border-outline-variant/5">
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="pending_actions">pending_actions</span>
+</div>
+<span class="text-error font-bold text-xs flex items-center bg-error-container/10 px-2 py-1 rounded">
+<span class="material-symbols-outlined text-[14px] mr-1" data-icon="trending_down">trending_down</span>
+                        -2%
+                    </span>
+</div>
+<h3 class="text-on-surface-variant text-sm font-medium">In Progress</h3>
+<p class="text-3xl font-black tracking-tight mt-1">85</p>
+<div class="mt-4 h-1 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary w-1/4"></div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-low rounded-[1.5rem] p-6 shadow-sm border border-outline-variant/5">
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 rounded-xl bg-secondary-container/20 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
+</div>
+<span class="text-secondary font-bold text-xs flex items-center bg-secondary-container/10 px-2 py-1 rounded">
+<span class="material-symbols-outlined text-[14px] mr-1" data-icon="trending_up">trending_up</span>
+                        +12%
+                    </span>
+</div>
+<h3 class="text-on-surface-variant text-sm font-medium">Cleaned</h3>
+<p class="text-3xl font-black tracking-tight mt-1">1,152</p>
+<div class="mt-4 h-1 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[90%]"></div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface-container-low rounded-[1.5rem] p-6 shadow-sm border border-outline-variant/5">
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 rounded-xl bg-tertiary-container/20 flex items-center justify-center text-tertiary-container">
+<span class="material-symbols-outlined" data-icon="volunteer_activism">volunteer_activism</span>
+</div>
+<span class="text-secondary font-bold text-xs flex items-center bg-secondary-container/10 px-2 py-1 rounded">
+<span class="material-symbols-outlined text-[14px] mr-1" data-icon="trending_up">trending_up</span>
+                        +8%
+                    </span>
+</div>
+<h3 class="text-on-surface-variant text-sm font-medium">Active Volunteers</h3>
+<p class="text-3xl font-black tracking-tight mt-1">42</p>
+<div class="mt-4 h-1 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-tertiary-container w-1/2"></div>
+</div>
+</div>
+</div>
+<!-- Charts Section: Asymmetric Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Main Chart: Cleanup Progress -->
+<div class="lg:col-span-2 bg-surface-container-low rounded-[1.5rem] p-8">
+<div class="flex justify-between items-center mb-8">
+<div>
+<h2 class="text-xl font-bold tracking-tight">Cleanup Progress</h2>
+<p class="text-sm text-on-surface-variant">Efficiency metrics for the last 30 days</p>
+</div>
+<div class="flex space-x-2">
+<button class="px-3 py-1 text-xs font-bold rounded-lg bg-surface-container-highest text-on-surface">Weekly</button>
+<button class="px-3 py-1 text-xs font-bold rounded-lg text-on-surface-variant hover:bg-surface-container-highest">Monthly</button>
+</div>
+</div>
+<!-- Visual Mockup of Line Chart -->
+<div class="relative h-64 w-full flex items-end justify-between px-2 pt-4">
+<div class="absolute inset-0 flex flex-col justify-between pointer-events-none">
+<div class="w-full border-t border-outline-variant/10"></div>
+<div class="w-full border-t border-outline-variant/10"></div>
+<div class="w-full border-t border-outline-variant/10"></div>
+<div class="w-full border-t border-outline-variant/10"></div>
+</div>
+<!-- Chart Bars/Points Simulated -->
+<div class="w-8 bg-tertiary/20 rounded-t-lg h-1/4 relative group">
+<div class="absolute -top-2 left-1/2 -translate-x-1/2 w-2 h-2 bg-tertiary rounded-full"></div>
+</div>
+<div class="w-8 bg-tertiary/20 rounded-t-lg h-2/5 relative group">
+<div class="absolute -top-2 left-1/2 -translate-x-1/2 w-2 h-2 bg-tertiary rounded-full"></div>
+</div>
+<div class="w-8 bg-tertiary/20 rounded-t-lg h-1/3 relative group">
+<div class="absolute -top-2 left-1/2 -translate-x-1/2 w-2 h-2 bg-tertiary rounded-full"></div>
+</div>
+<div class="w-8 bg-tertiary/20 rounded-t-lg h-3/5 relative group">
+<div class="absolute -top-2 left-1/2 -translate-x-1/2 w-2 h-2 bg-tertiary rounded-full"></div>
+</div>
+<div class="w-8 bg-tertiary/20 rounded-t-lg h-4/5 relative group">
+<div class="absolute -top-2 left-1/2 -translate-x-1/2 w-2 h-2 bg-tertiary rounded-full"></div>
+</div>
+<div class="w-8 bg-tertiary/20 rounded-t-lg h-2/3 relative group">
+<div class="absolute -top-2 left-1/2 -translate-x-1/2 w-2 h-2 bg-tertiary rounded-full"></div>
+</div>
+<div class="w-8 bg-tertiary/20 rounded-t-lg h-full relative group">
+<div class="absolute -top-2 left-1/2 -translate-x-1/2 w-2 h-2 bg-tertiary rounded-full"></div>
+</div>
+</div>
+<div class="flex justify-between mt-4 text-[10px] text-on-surface-variant font-bold uppercase tracking-widest px-2">
+<span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+</div>
+</div>
+<!-- Secondary Chart: Reports by Severity -->
+<div class="bg-surface-container-low rounded-[1.5rem] p-8 flex flex-col items-center justify-center relative overflow-hidden">
+<div class="w-full text-left mb-8">
+<h2 class="text-xl font-bold tracking-tight">Severity</h2>
+<p class="text-sm text-on-surface-variant">Report distribution</p>
+</div>
+<!-- Donut Chart Visual -->
+<div class="relative w-48 h-48 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-error-container/20" cx="96" cy="96" fill="transparent" r="80" stroke="currentColor" stroke-width="16"></circle>
+<circle class="text-tertiary" cx="96" cy="96" fill="transparent" r="80" stroke="currentColor" stroke-dasharray="502" stroke-dashoffset="150" stroke-width="16"></circle>
+<circle class="text-error" cx="96" cy="96" fill="transparent" r="80" stroke="currentColor" stroke-dasharray="502" stroke-dashoffset="400" stroke-width="16"></circle>
+</svg>
+<div class="absolute flex flex-col items-center">
+<span class="text-3xl font-black">1.2k</span>
+<span class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Total</span>
+</div>
+</div>
+<div class="w-full mt-8 grid grid-cols-2 gap-4">
+<div class="flex items-center space-x-2">
+<span class="w-3 h-3 rounded-sm bg-error"></span>
+<span class="text-xs font-bold text-on-surface">Critical (15%)</span>
+</div>
+<div class="flex items-center space-x-2">
+<span class="w-3 h-3 rounded-sm bg-tertiary"></span>
+<span class="text-xs font-bold text-on-surface">High (45%)</span>
+</div>
+<div class="flex items-center space-x-2">
+<span class="w-3 h-3 rounded-sm bg-primary"></span>
+<span class="text-xs font-bold text-on-surface">Medium (30%)</span>
+</div>
+<div class="flex items-center space-x-2">
+<span class="w-3 h-3 rounded-sm bg-secondary"></span>
+<span class="text-xs font-bold text-on-surface">Low (10%)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Dispatches List (Bento-style detail) -->
+<div class="mt-10 bg-surface-container rounded-[1.5rem] p-8">
+<div class="flex justify-between items-center mb-6">
+<h2 class="text-xl font-bold tracking-tight">Urgent Dispatches</h2>
+<button class="text-tertiary text-sm font-bold hover:underline">View All Reports</button>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-4 rounded-2xl bg-surface-container-low hover:bg-surface-container-high transition-colors border-l-4 border-error">
+<div class="flex items-center space-x-4">
+<div class="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
+<img alt="Waste at Park" class="w-full h-full object-cover" data-alt="overflowing public trash bin in a city park with green trees and sunlight in the background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCm3B3XANcEHE26gwch5DCAkU7gGR4qLb4BHU79u0KQQd0I5U8kNZSiKA-Mi418oPUnAKmvziZOCxbzQqIIF-LJMgapAlV6Bq5wAOyUVJ0tWIb9JOOO5ekXxjXDu23vIdzsKGjEwKNownFsDc6hlePUISmUuD4xsmEm4O7yHlUmf81wQQaXQc7KujH3HIp2tEBapJop0IkVpS_wxwGE2B5Jv9UBEVJSWaUaT3vsKEih-eYmDn0AgDB85ZXTBLKG8BokXZSqr-XDzDlh"/>
+</div>
+<div>
+<h4 class="font-bold text-on-surface">Hazardous Waste - Central Park</h4>
+<p class="text-xs text-on-surface-variant">Reported 12m ago by Citizen ID #8821</p>
+</div>
+</div>
+<div class="flex items-center space-x-6">
+<div class="bg-error-container text-on-error-container px-3 py-1 rounded-sm text-[10px] font-bold uppercase tracking-widest">High Severity</div>
+<button class="bg-tertiary-container text-on-tertiary-container px-4 py-2 rounded-xl text-xs font-bold">Assign Team</button>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 rounded-2xl bg-surface-container-low hover:bg-surface-container-high transition-colors border-l-4 border-tertiary">
+<div class="flex items-center space-x-4">
+<div class="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
+<img alt="Illegal Dumping" class="w-full h-full object-cover" data-alt="abandoned tires and construction debris on the side of an industrial road at dusk" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbaNcQNnDnv8Garb6M7rakxcS0F74NA7-ued5OlXlp2XU378jzowTPGUjXZR7qj1kGt2cpgzsFq8evQznFNBilyQ68LRPVo1STEwg6d-Fv_2fRXHqBlmm-dds9IUoi8dySwBpLCv-e33uDR7BSi2gJK6ghG22tYhzHZKYYTdhdxmDDCZtOYzbxPzKJRu3LbWe6rkZYmtZT6NN59NPDkb4ZGdKGYJAqzOjhIU3otYS5GG_1k0Imp6Gd8UxDzf0_xf1iKUKWWNA8y802"/>
+</div>
+<div>
+<h4 class="font-bold text-on-surface">Illegal Dumping - East Sector</h4>
+<p class="text-xs text-on-surface-variant">Reported 45m ago by Citizen ID #1043</p>
+</div>
+</div>
+<div class="flex items-center space-x-6">
+<div class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-sm text-[10px] font-bold uppercase tracking-widest">Medium Severity</div>
+<button class="bg-tertiary-container text-on-tertiary-container px-4 py-2 rounded-xl text-xs font-bold">Assign Team</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 w-full md:hidden rounded-t-[1.5rem] bg-[#0b1326] dark:bg-[#0b1326] font-['Inter'] text-[10px] uppercase tracking-widest font-bold border-t border-[#2d3449]/15 shadow-[0_-10px_40px_rgba(0,0,0,0.4)] z-50">
+<div class="flex justify-around items-center h-20 px-4 pb-safe">
+<!-- Overview is Active -->
+<a class="flex flex-col items-center justify-center bg-[#171f33] text-[#adc6ff] rounded-xl p-2 scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Overview</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 p-2 active:bg-[#171f33] transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span>Map</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 p-2 active:bg-[#171f33] transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="format_list_bulleted">format_list_bulleted</span>
+<span>Reports</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 p-2 active:bg-[#171f33] transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span>Team</span>
+</a>
+</div>
+</nav>
+<!-- Floating Action Button (Supressed on Detail/Settings, visible here for quick dispatch) -->
+<button class="fixed bottom-24 right-6 md:bottom-8 md:right-8 w-14 h-14 rounded-full bg-gradient-to-br from-tertiary to-tertiary-container text-on-tertiary shadow-xl flex items-center justify-center glass-panel border border-tertiary/20 z-40 transition-transform active:scale-95">
+<span class="material-symbols-outlined" data-icon="add_task">add_task</span>
+</button>
+</body></html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Authority Mobile Dashboard - Volunteer Directory</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary": "#adc6ff",
+                    "on-primary-fixed-variant": "#004395",
+                    "primary-fixed": "#d8e2ff",
+                    "error": "#ffb4ab",
+                    "on-tertiary-container": "#340080",
+                    "on-tertiary": "#3c0091",
+                    "surface-bright": "#31394d",
+                    "on-tertiary-fixed": "#23005c",
+                    "secondary-fixed-dim": "#4edea3",
+                    "inverse-primary": "#005ac2",
+                    "secondary-container": "#00a572",
+                    "on-surface-variant": "#c2c6d6",
+                    "primary-container": "#4d8eff",
+                    "error-container": "#93000a",
+                    "surface": "#0b1326",
+                    "inverse-surface": "#dae2fd",
+                    "tertiary-container": "#a078ff",
+                    "surface-container": "#171f33",
+                    "on-secondary-fixed": "#002113",
+                    "on-background": "#dae2fd",
+                    "surface-tint": "#adc6ff",
+                    "primary-fixed-dim": "#adc6ff",
+                    "on-tertiary-fixed-variant": "#5516be",
+                    "tertiary-fixed": "#e9ddff",
+                    "surface-variant": "#2d3449",
+                    "on-error": "#690005",
+                    "tertiary-fixed-dim": "#d0bcff",
+                    "surface-container-lowest": "#060e20",
+                    "surface-container-highest": "#2d3449",
+                    "secondary": "#4edea3",
+                    "surface-container-high": "#222a3d",
+                    "tertiary": "#d0bcff",
+                    "on-secondary": "#003824",
+                    "surface-container-low": "#131b2e",
+                    "on-error-container": "#ffdad6",
+                    "outline": "#8c909f",
+                    "background": "#0b1326",
+                    "secondary-fixed": "#6ffbbe",
+                    "surface-dim": "#0b1326",
+                    "on-surface": "#dae2fd",
+                    "on-primary-fixed": "#001a42",
+                    "on-primary-container": "#00285d",
+                    "on-secondary-container": "#00311f",
+                    "on-secondary-fixed-variant": "#005236",
+                    "outline-variant": "#424754",
+                    "on-primary": "#002e6a",
+                    "inverse-on-surface": "#283044"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface selection:bg-primary/30 min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="bg-[#0b1326] flex justify-between items-center px-6 py-4 w-full sticky top-0 z-50">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container-highest flex items-center justify-center">
+<img alt="Authority profile image" class="w-full h-full object-cover" data-alt="Close up portrait of a middle-aged male administrator in a professional dark suit, soft studio lighting, authoritative expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYGwd_JsCJN926mLQoZC5YpqikHqGBF_eRvxK7W4nJifRDn94fUgeYPSTkwTodZClvlbS7NR9luv6B3jAjSiY-z6dv8xu2rR1MeA8vgAKuaMDVn-grHiKX77SdN-gkQZKZi5JHFFi-aPU39AttfBJsOwgX59AEJGc-mzq9upcnEBE3dS-e6ajjLiNgl92PF8eogSk31kBoPqu7ke3qXnMGeK_0UlxfgFkO52URSdU_rhQdqgGs9ZYQM_OAe_KK6iEBL2sNa-_5AmGI"/>
+</div>
+<h1 class="text-xl font-black tracking-[-0.02em] text-[#adc6ff] font-['Inter']">Authority</h1>
+</div>
+<button class="text-[#adc6ff] hover:bg-[#171f33] transition-colors p-2 rounded-full active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</header>
+<main class="px-6 pt-4 space-y-8">
+<!-- Hero / Search Section -->
+<section class="space-y-4">
+<div class="space-y-1">
+<p class="text-xs font-label uppercase tracking-[0.1em] text-tertiary">Directory</p>
+<h2 class="text-3xl font-headline font-extrabold tracking-tight text-on-surface">Volunteer Network</h2>
+</div>
+<div class="relative group">
+<div class="absolute inset-y-0 left-4 flex items-center pointer-events-none text-outline">
+<span class="material-symbols-outlined text-[20px]" data-icon="search">search</span>
+</div>
+<input class="w-full bg-surface-container-lowest border-none rounded-xl py-4 pl-12 pr-4 text-on-surface placeholder:text-outline focus:ring-2 focus:ring-primary/40 transition-all outline-none" placeholder="Search volunteers, status, or stats..." type="text"/>
+</div>
+</section>
+<!-- Stats Overview (Asymmetric Bento) -->
+<section class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-low p-5 rounded-[24px] flex flex-col justify-between aspect-square border-l-4 border-tertiary">
+<span class="material-symbols-outlined text-tertiary text-3xl" data-icon="groups">groups</span>
+<div class="space-y-1">
+<p class="text-4xl font-black tracking-tighter text-on-surface">158</p>
+<p class="text-[10px] font-label uppercase tracking-widest text-on-surface-variant">Active Force</p>
+</div>
+</div>
+<div class="space-y-4">
+<div class="bg-surface-container-low p-4 rounded-xl h-[calc(50%-8px)] flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-secondary shadow-[0_0_8px_rgba(78,222,163,0.5)]"></div>
+<div>
+<p class="text-xl font-bold text-on-surface">42</p>
+<p class="text-[9px] font-label uppercase tracking-widest text-on-surface-variant">Online</p>
+</div>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl h-[calc(50%-8px)] flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="verified">verified</span>
+<div>
+<p class="text-xl font-bold text-on-surface">12</p>
+<p class="text-[9px] font-label uppercase tracking-widest text-on-surface-variant">Pending</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Volunteer List -->
+<section class="space-y-4">
+<div class="flex justify-between items-end px-1">
+<h3 class="text-sm font-label uppercase tracking-widest text-on-surface-variant">Active Volunteers</h3>
+<span class="text-[10px] text-tertiary font-medium">Sorted by Activity</span>
+</div>
+<div class="space-y-3">
+<!-- Volunteer Card 1 -->
+<div class="bg-surface-container rounded-[24px] p-5 flex items-center gap-4 hover:bg-surface-container-high transition-all group">
+<div class="relative">
+<div class="w-14 h-14 rounded-full overflow-hidden border-2 border-surface">
+<img class="w-full h-full object-cover" data-alt="Portrait of a young professional woman with a friendly smile, outdoor urban background with soft sunlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBaYA4b5y54i_GkuiQ52yL796HA2XMifx4L0xwGke4JGn8Lwq6Mhyk3Wmz874nCUNH-1G1NTzQYyYmTaw3XH_WC9RvjFYHGjI7r7exFqOTN57s586I-Y18XDZXR3hCrc4461UodWHsCjC5cPlvOQJWxV1eIv6JqAFw9-7iKnb_F62TkrV19IAOm_Iw7E5QonUDaXLDQ6Ez_A2SYvboI_MIewkVY79tw4vhKUEd72h8IVh4RmTIq1IxG-ufElI4qp5MBHegwoAIolDb_"/>
+</div>
+<div class="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-secondary border-2 border-surface"></div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-bold text-on-surface tracking-tight">Elena Rodriguez</h4>
+<div class="bg-secondary-container/20 px-2 py-0.5 rounded-sm">
+<span class="text-[9px] font-label uppercase text-secondary font-bold">Online</span>
+</div>
+</div>
+<div class="flex gap-4 mt-2">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px] text-primary" data-icon="assignment">assignment</span>
+<span class="text-xs text-on-surface-variant">24 <span class="text-[10px] opacity-60">Claims</span></span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px] text-tertiary" data-icon="cleaning_services">cleaning_services</span>
+<span class="text-xs text-on-surface-variant">18 <span class="text-[10px] opacity-60">Cleanups</span></span>
+</div>
+</div>
+</div>
+</div>
+<!-- Volunteer Card 2 -->
+<div class="bg-surface-container rounded-[24px] p-5 flex items-center gap-4 hover:bg-surface-container-high transition-all group">
+<div class="relative">
+<div class="w-14 h-14 rounded-full overflow-hidden border-2 border-surface">
+<img class="w-full h-full object-cover" data-alt="Candid portrait of a young man with glasses looking thoughtfully at the camera, cool cinematic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAa8eW3QVX0Gt3oma2oraWVnAlt1G3F5vseeAreIJgd_8dnKmvSurNU1NQycX8TgG51Yp40F7k4dN-YCPcz2Z6a4Qn0qPLP7hOSTG-hpmEyh0IMF8bEwdb_aFphJ21eh39PPMX16G_T7uCriRUS6w7glvNoNNAawce0UQdNhSf6_lkpuaMIRmLghrtcIJpoBpSApiTtiOYvhSXREYiTXaZxyfF6xtV6KSLjQLu-zSi0FEu5PX_eNlvPzFs2GMbmW3SnrXC9NcIlL7rL"/>
+</div>
+<div class="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-outline border-2 border-surface"></div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-bold text-on-surface tracking-tight">Marcus Chen</h4>
+<div class="bg-surface-container-highest/50 px-2 py-0.5 rounded-sm">
+<span class="text-[9px] font-label uppercase text-on-surface-variant font-bold">Offline</span>
+</div>
+</div>
+<div class="flex gap-4 mt-2">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px] text-primary" data-icon="assignment">assignment</span>
+<span class="text-xs text-on-surface-variant">12 <span class="text-[10px] opacity-60">Claims</span></span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px] text-tertiary" data-icon="cleaning_services">cleaning_services</span>
+<span class="text-xs text-on-surface-variant">42 <span class="text-[10px] opacity-60">Cleanups</span></span>
+</div>
+</div>
+</div>
+</div>
+<!-- Volunteer Card 3 -->
+<div class="bg-surface-container rounded-[24px] p-5 flex items-center gap-4 hover:bg-surface-container-high transition-all group">
+<div class="relative">
+<div class="w-14 h-14 rounded-full overflow-hidden border-2 border-surface">
+<img class="w-full h-full object-cover" data-alt="Portrait of a laughing woman with curly hair, natural light, urban city park background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-T6dJiwt1Z3Bjxjeyy6sycTQ6nTJKPc0IBN3eDnJxnu5hoB7WAwGxPxlUZ7G3iFjdGzC5PTM0RSYexAmeGvz421E4_HaQwDK2J99bAmSbVcKhmQTeOfa_lg2XengsJ9F8PaVy9I8ZRFeQyvvBfqb5bCEn6NYQsJ1-egbNcAjpNcppWHru7w7ewc1h7tC_nfjVHJdJtTyOTe4_j7912kKcP6G1Mq8ttptAgQBXY9VcqJu3eeJMS8CA19Ck2nSH1kiY-LMxDnPo0ZF7"/>
+</div>
+<div class="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-secondary border-2 border-surface"></div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-bold text-on-surface tracking-tight">Sarah Jenkins</h4>
+<div class="bg-secondary-container/20 px-2 py-0.5 rounded-sm">
+<span class="text-[9px] font-label uppercase text-secondary font-bold">Online</span>
+</div>
+</div>
+<div class="flex gap-4 mt-2">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px] text-primary" data-icon="assignment">assignment</span>
+<span class="text-xs text-on-surface-variant">8 <span class="text-[10px] opacity-60">Claims</span></span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px] text-tertiary" data-icon="cleaning_services">cleaning_services</span>
+<span class="text-xs text-on-surface-variant">12 <span class="text-[10px] opacity-60">Cleanups</span></span>
+</div>
+</div>
+</div>
+</div>
+<!-- Volunteer Card 4 -->
+<div class="bg-surface-container rounded-[24px] p-5 flex items-center gap-4 hover:bg-surface-container-high transition-all group">
+<div class="relative">
+<div class="w-14 h-14 rounded-full overflow-hidden border-2 border-surface">
+<img class="w-full h-full object-cover" data-alt="Close up of a man with a beard and kind eyes, wearing a simple t-shirt, soft diffused lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKs6N1KDyiI_hioZwDXXr3II9Cfc_2rLg41yIIvRUBLrlSBrmBHGNhz1Wm3zII42eonereHpHB5zQOBA_E1K49jyFaCm0QfsNpqpEY9xYOuBefw9mR4xejgMFWzxV3rj6DVPQLEz53qzYv1D1iZxxX_T2l9tVkELjes_b_bjUlnIhLxlYxxMYl0Vruvnw00d6weDmFsjHEpXeDAFxEpYtMoPo97O0OngiDg6LXReZIJts-zJeLPcbOMTl_Srr0Mk518gHDRTVWKk_2"/>
+</div>
+<div class="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-outline border-2 border-surface"></div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-bold text-on-surface tracking-tight">David Wilson</h4>
+<div class="bg-surface-container-highest/50 px-2 py-0.5 rounded-sm">
+<span class="text-[9px] font-label uppercase text-on-surface-variant font-bold">Offline</span>
+</div>
+</div>
+<div class="flex gap-4 mt-2">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px] text-primary" data-icon="assignment">assignment</span>
+<span class="text-xs text-on-surface-variant">56 <span class="text-[10px] opacity-60">Claims</span></span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px] text-tertiary" data-icon="cleaning_services">cleaning_services</span>
+<span class="text-xs text-on-surface-variant">31 <span class="text-[10px] opacity-60">Cleanups</span></span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- FAB -->
+<button class="fixed bottom-24 right-6 w-14 h-14 bg-gradient-to-br from-tertiary to-tertiary-container text-on-tertiary rounded-2xl shadow-[0_8px_24px_rgba(160,120,255,0.3)] flex items-center justify-center active:scale-90 duration-200 z-[60] group">
+<span class="material-symbols-outlined text-2xl group-hover:rotate-90 transition-transform duration-300" data-icon="add">add</span>
+</button>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-2 bg-[#0b1326]/60 backdrop-blur-xl rounded-t-[24px] shadow-[0_-8px_32px_rgba(0,26,66,0.08)]">
+<a class="flex flex-col items-center justify-center text-[#2d3449] px-5 py-2 hover:text-[#adc6ff] active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="dashboard">dashboard</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-[0.05em] uppercase">Overview</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#2d3449] px-5 py-2 hover:text-[#adc6ff] active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="map">map</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-[0.05em] uppercase">Map</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#2d3449] px-5 py-2 hover:text-[#adc6ff] active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="assignment">assignment</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-[0.05em] uppercase">Reports</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-gradient-to-br from-[#adc6ff] to-[#4d8eff] text-[#0b1326] rounded-[12px] px-5 py-2 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="group" style="font-variation-settings: 'FILL' 1;">group</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-[0.05em] uppercase">Team</span>
+</a>
+</nav>
+</body></html>

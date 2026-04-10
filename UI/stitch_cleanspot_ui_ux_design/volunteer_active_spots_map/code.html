@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CleanSpot - City Watch</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-on-surface": "#283044",
+                        "on-surface-variant": "#c2c6d6",
+                        "primary-container": "#4d8eff",
+                        "on-secondary-fixed-variant": "#005236",
+                        "surface-container": "#171f33",
+                        "on-background": "#dae2fd",
+                        "on-error-container": "#ffdad6",
+                        "surface": "#0b1326",
+                        "primary-fixed-dim": "#adc6ff",
+                        "tertiary-fixed-dim": "#d0bcff",
+                        "primary": "#adc6ff",
+                        "on-error": "#690005",
+                        "surface-dim": "#0b1326",
+                        "inverse-primary": "#005ac2",
+                        "on-tertiary-fixed": "#23005c",
+                        "secondary": "#4edea3",
+                        "on-secondary-fixed-variant": "#005236",
+                        "on-primary": "#002e6a",
+                        "on-secondary": "#003824",
+                        "on-secondary-container": "#00311f",
+                        "secondary-fixed-dim": "#4edea3",
+                        "on-primary-fixed": "#001a42",
+                        "on-surface": "#dae2fd",
+                        "on-tertiary-container": "#340080",
+                        "on-primary-fixed-variant": "#004395",
+                        "surface-tint": "#adc6ff",
+                        "secondary-fixed": "#6ffbbe",
+                        "secondary-container": "#00a572",
+                        "tertiary-fixed": "#e9ddff",
+                        "tertiary": "#d0bcff",
+                        "surface-container-highest": "#2d3449",
+                        "inverse-surface": "#dae2fd",
+                        "surface-bright": "#31394d",
+                        "surface-container-lowest": "#060e20",
+                        "tertiary-container": "#a078ff",
+                        "error": "#ffb4ab",
+                        "on-primary-container": "#00285d",
+                        "outline-variant": "#424754",
+                        "on-secondary-fixed": "#002113",
+                        "surface-container-high": "#222a3d",
+                        "surface-container-low": "#131b2e",
+                        "on-tertiary": "#3c0091",
+                        "primary-fixed": "#d8e2ff",
+                        "outline": "#8c909f",
+                        "surface-variant": "#2d3449",
+                        "error-container": "#93000a",
+                        "background": "#0b1326"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "3xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        .map-gradient-overlay {
+            background: radial-gradient(circle at center, transparent 0%, #0b1326 100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-[#0b1326] dark:bg-[#0b1326] flex justify-between items-center w-full px-6 py-4 docked full-width top-0 z-50">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/20">
+<img class="w-full h-full object-cover" data-alt="close-up portrait of a determined young volunteer with a kind smile, urban city background with soft bokeh" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdwCH38sgC7CvFlfOxQQW56VViVXWrb5J9vOjOGgM-kVdaowFakWRRzt2DrbSu2KOobI_Mb8-dfMzaXFbI2DzOlm-epbd10IeYmxLvxoYfwbvnoA1_AfBX9Qxiz0jRmEAdRLGAbG1X-v1SAVWaN1yDlXlkbpVIvS8dYskRoGiSRsGeyQCs6y4jSA31pGIMQpVlBnfys7Z0T2e5FMpcNfwhPm35aLGirFRSLX4Bc0VJ9c5aG26fKIUujFwhEDtTK7iypD_adbN7PNJE"/>
+</div>
+<span class="text-xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-[#adc6ff] to-[#4d8eff]">CleanSpot</span>
+</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-[#adc6ff] text-2xl hover:opacity-80 transition-opacity cursor-pointer">dark_mode</span>
+</div>
+</header>
+<!-- Main Map Canvas -->
+<main class="flex-grow relative overflow-hidden bg-surface-container-lowest">
+<!-- Mock Map Background -->
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover opacity-40 mix-blend-luminosity" data-alt="dark satellite map of a metropolitan area with stylized neon blue road networks and dark navy oceans" data-location="San Francisco" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbxdb-sE7iD2a33DM0pLVfWA8Q8CzM6Ax2YN33Lh33989TAvpD7hhcVd2Id-JimSna7bpPuHCO4Hl3ApnwGRpDXql039FJXuziuQPT9eSEKQ7H7uwa_3Ty8GoxlN1wV1dKq2LenmSNNdPU1x1X3U1N63dcTpl9k0vzbOAKCy6R1efwPRq71PKx5Aru4HKV2t7pXQ3J5JaceTZ9QoG8ArHUtjmripe9jOIVw2XM42RpQndWNwXwCsG_4ml6uWlLYQ9LKh2tTohZwmzD"/>
+<div class="absolute inset-0 map-gradient-overlay pointer-events-none"></div>
+</div>
+<!-- Floating Search/Filters -->
+<div class="absolute top-6 left-6 right-6 z-20 flex gap-2">
+<div class="flex-grow flex items-center bg-surface-container-low/80 backdrop-blur-xl px-4 py-3 rounded-2xl">
+<span class="material-symbols-outlined text-outline mr-3">search</span>
+<input class="bg-transparent border-none text-on-surface placeholder:text-outline w-full focus:ring-0 text-sm" placeholder="Search mission zones..." type="text"/>
+</div>
+<button class="bg-surface-container-low/80 backdrop-blur-xl p-3 rounded-2xl text-primary">
+<span class="material-symbols-outlined">tune</span>
+</button>
+</div>
+<!-- Map Markers -->
+<!-- Red Marker (High Severity) -->
+<div class="absolute top-1/3 left-1/4 z-10 cursor-pointer group">
+<div class="relative flex items-center justify-center">
+<div class="absolute w-12 h-12 bg-error/20 rounded-full animate-ping"></div>
+<div class="w-8 h-8 bg-error-container border-2 border-error rounded-full flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-on-error-container text-lg" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+</div>
+</div>
+<!-- Orange Marker (Medium) -->
+<div class="absolute top-1/2 left-2/3 z-10 cursor-pointer group">
+<div class="relative flex items-center justify-center">
+<div class="w-6 h-6 bg-tertiary-container border-2 border-tertiary rounded-full flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
+<div class="w-2 h-2 bg-on-tertiary-container rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- Green Marker (Low/Active) -->
+<div class="absolute bottom-1/3 right-1/4 z-10 cursor-pointer group">
+<div class="relative flex items-center justify-center">
+<div class="w-6 h-6 bg-secondary-container border-2 border-secondary rounded-full flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
+<div class="w-2 h-2 bg-on-secondary-container rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- Bottom Sheet (Active State) -->
+<div class="absolute bottom-0 left-0 right-0 z-40 bg-surface-container rounded-t-[32px] p-6 shadow-[0_-12px_40px_rgba(0,0,0,0.5)] transform translate-y-0">
+<!-- Drag Handle -->
+<div class="w-12 h-1.5 bg-outline-variant/30 rounded-full mx-auto mb-6"></div>
+<div class="flex flex-col md:flex-row gap-6">
+<!-- Waste Photo -->
+<div class="w-full md:w-48 h-48 rounded-3xl overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="overflowing trash bin on a city sidewalk next to a park bench with scattered debris, dramatic evening light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAo6kAuF74JuVbuWMkuX6KJgdKh7xVeHWjYxjMwJ0ahabasuSetx2aV8fjkAsLg6UlhaVG8fe4h5M-FkoSsNTJFzILVCnr23tTe-5oN9D79o5BWFW-kqHZgyC8gfWM18IABBKGxTVpQFpd3L9zrgwmgPGV0ODbsT7Str15T_1gPa1ePQfLMDNklczCVwDU2DTGcVtaCkgDuCNMvcp4Tx9p9ysqR9seYEs1jkURUKmqYUywmJvvfjbjMUB9hyMOQfqHQl_p6ZkHE_bpX"/>
+</div>
+<div class="flex-grow">
+<!-- Editorial Header -->
+<div class="flex justify-between items-start mb-4">
+<div>
+<span class="inline-block px-2 py-1 bg-error-container text-on-error-container text-[10px] font-bold tracking-widest uppercase rounded-sm mb-2">High Severity</span>
+<h2 class="text-2xl font-bold tracking-tight text-on-surface">Market St. Overflow</h2>
+<p class="text-on-surface-variant text-sm mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">location_on</span>
+                                451 Market Street, Downtown
+                            </p>
+</div>
+<div class="text-right">
+<p class="text-[10px] font-medium text-outline uppercase tracking-widest">Reported</p>
+<p class="text-primary font-bold">14 mins ago</p>
+</div>
+</div>
+<!-- Description -->
+<p class="text-on-surface-variant text-sm leading-relaxed mb-6">
+                        Industrial waste and overflow from public bins blocking the pedestrian walkway. Requires standard cleanup kit and high-vis gear.
+                    </p>
+<!-- CTAs -->
+<div class="flex gap-3">
+<button class="flex-grow h-14 bg-gradient-to-br from-secondary to-secondary-container text-on-secondary-container font-extrabold rounded-2xl flex items-center justify-center gap-2 active:scale-95 transition-transform">
+<span class="material-symbols-outlined">how_to_reg</span>
+                            Claim for Cleanup
+                        </button>
+<button class="w-14 h-14 bg-surface-container-high text-on-surface rounded-2xl flex items-center justify-center active:scale-95 transition-transform">
+<span class="material-symbols-outlined">directions</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Safe Area Spacer for Bottom Nav -->
+<div class="h-24"></div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pt-3 pb-6 bg-[#131b2e]/60 backdrop-blur-xl dark:bg-[#131b2e]/60 rounded-t-[24px] z-50 shadow-[0_-8px_32px_rgba(0,26,66,0.08)]">
+<a class="flex flex-col items-center justify-center text-[#8e9199] px-5 py-2 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">home</span>
+<span class="font-['Inter'] text-[11px] font-medium tracking-wide uppercase">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-[#2d3449] text-[#adc6ff] rounded-2xl px-5 py-2 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">map</span>
+<span class="font-['Inter'] text-[11px] font-medium tracking-wide uppercase">Map</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#8e9199] px-5 py-2 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">assignment_turned_in</span>
+<span class="font-['Inter'] text-[11px] font-medium tracking-wide uppercase">Claims</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#8e9199] px-5 py-2 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">leaderboard</span>
+<span class="font-['Inter'] text-[11px] font-medium tracking-wide uppercase">Rank</span>
+</a>
+</nav>
+</body></html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Authority Reports Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary": "#adc6ff",
+                    "on-primary-fixed-variant": "#004395",
+                    "primary-fixed": "#d8e2ff",
+                    "error": "#ffb4ab",
+                    "on-tertiary-container": "#340080",
+                    "on-tertiary": "#3c0091",
+                    "surface-bright": "#31394d",
+                    "on-tertiary-fixed": "#23005c",
+                    "secondary-fixed-dim": "#4edea3",
+                    "inverse-primary": "#005ac2",
+                    "secondary-container": "#00a572",
+                    "on-surface-variant": "#c2c6d6",
+                    "primary-container": "#4d8eff",
+                    "error-container": "#93000a",
+                    "surface": "#0b1326",
+                    "inverse-surface": "#dae2fd",
+                    "tertiary-container": "#a078ff",
+                    "surface-container": "#171f33",
+                    "on-secondary-fixed": "#002113",
+                    "on-background": "#dae2fd",
+                    "surface-tint": "#adc6ff",
+                    "primary-fixed-dim": "#adc6ff",
+                    "on-tertiary-fixed-variant": "#5516be",
+                    "tertiary-fixed": "#e9ddff",
+                    "surface-variant": "#2d3449",
+                    "on-error": "#690005",
+                    "tertiary-fixed-dim": "#d0bcff",
+                    "surface-container-lowest": "#060e20",
+                    "surface-container-highest": "#2d3449",
+                    "secondary": "#4edea3",
+                    "surface-container-high": "#222a3d",
+                    "tertiary": "#d0bcff",
+                    "on-secondary": "#003824",
+                    "surface-container-low": "#131b2e",
+                    "on-error-container": "#ffdad6",
+                    "outline": "#8c909f",
+                    "background": "#0b1326",
+                    "secondary-fixed": "#6ffbbe",
+                    "surface-dim": "#0b1326",
+                    "on-surface": "#dae2fd",
+                    "on-primary-fixed": "#001a42",
+                    "on-primary-container": "#00285d",
+                    "on-secondary-container": "#00311f",
+                    "on-secondary-fixed-variant": "#005236",
+                    "outline-variant": "#424754",
+                    "on-primary": "#002e6a",
+                    "inverse-on-surface": "#283044"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #0b1326;
+            color: #dae2fd;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body selection:bg-primary-container/30">
+<!-- TopAppBar -->
+<nav class="bg-[#0b1326] flex justify-between items-center px-6 py-4 w-full sticky top-0 z-50">
+<div class="flex items-center gap-3">
+<img alt="Authority profile image" class="w-10 h-10 rounded-full bg-surface-container object-cover" data-alt="professional profile portrait of a city official in a dark navy uniform with a subtle badge" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkGKVI-3NfSGL2Xk2e8EYAHr_8AardRM9Fo-gACwoFOkzEjNZL6zd5FkAUVg7fdteRnvlE-amFgN2tn51GZMpufwLcUntDAfgcNfNsCcfdJ_TxCfP73xnkgZvdp8DCOozb445L7VpqYzW_cCdRHY3DUbUk9g3O7JHDULOr5fUJJ__sFEdfqWfNAvbd7Jm1TlVpMnhR-IZD49MpeZbyvcQhud54_XAMfXD0pYc7rzqfir4rew3PCecO3nC-GC5whuK1BZxiWixopkKy"/>
+<span class="text-xl font-black tracking-[-0.02em] text-[#adc6ff] font-headline">Authority</span>
+</div>
+<button class="text-[#adc6ff] hover:bg-[#171f33] transition-colors p-2 rounded-xl active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</nav>
+<main class="px-6 pb-32">
+<!-- Search & Editorial Header -->
+<header class="mt-4 mb-8">
+<div class="flex justify-between items-end mb-6">
+<div>
+<span class="text-on-surface-variant font-label text-[10px] uppercase tracking-[0.05em]">Incident Control</span>
+<h1 class="text-3xl font-headline font-bold text-on-surface tracking-tight mt-1">Reports</h1>
+</div>
+<div class="bg-surface-container px-3 py-1 rounded-sm">
+<span class="text-primary font-bold text-lg">42</span>
+<span class="text-on-surface-variant text-[10px] uppercase ml-1">Open</span>
+</div>
+</div>
+<!-- Search Bar -->
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline-variant group-focus-within:text-primary transition-colors">search</span>
+<input class="w-full h-12 bg-surface-container-lowest border-none rounded-xl pl-12 pr-4 text-on-surface placeholder:text-outline-variant focus:ring-1 focus:ring-primary/40 transition-all" placeholder="Search by incident ID or location..." type="text"/>
+</div>
+<!-- Filter Pills -->
+<div class="flex gap-2 mt-4 overflow-x-auto no-scrollbar pb-2">
+<button class="flex items-center gap-2 bg-gradient-to-br from-[#adc6ff] to-[#4d8eff] text-[#0b1326] px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+                    All Reports
+                </button>
+<button class="flex items-center gap-2 bg-surface-container text-on-surface-variant px-4 py-2 rounded-full text-xs font-medium whitespace-nowrap hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[18px]">warning</span>
+                    High Priority
+                </button>
+<button class="flex items-center gap-2 bg-surface-container text-on-surface-variant px-4 py-2 rounded-full text-xs font-medium whitespace-nowrap hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[18px]">schedule</span>
+                    Pending
+                </button>
+</div>
+</header>
+<!-- Reports List -->
+<section class="space-y-6">
+<!-- Report Card 1 -->
+<div class="bg-surface-container-low p-5 rounded-[24px] group">
+<div class="flex gap-4">
+<div class="relative w-20 h-20 shrink-0">
+<img alt="Incident thumbnail" class="w-full h-full object-cover rounded-xl" data-alt="close-up of urban waste and debris on a city sidewalk with moody dramatic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDN3m12ld4VV2In_Aper1erFm9ncMeadYamxEJMJEEqzQcThIXm_vSsFwReJ2TonJ3HW51JOfxmSw94sJdd7AIXydRZMVFH17vQoCb3VrA0Pnl0xwqVOmPuh37mJQcHhRxjLaraaLF8vIwVB_H6QDCTDCoEgLM4aV2Uf8kN2YRcmfJnD0WMxM-NUY6zKqM7irFpTTbVbr4W2Mu5Mh9Aa68ybhftqLU6tw4AnFVUjleB3UE31kmUwR7KFTXNPSMA86l5uR-t2E2iC_zd"/>
+<div class="absolute -top-1 -right-1 w-3 h-3 bg-error rounded-full ring-4 ring-surface-container-low"></div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<h3 class="text-on-surface font-headline font-bold text-base truncate pr-2">Illegal Dumping</h3>
+<span class="bg-error-container text-on-error-container text-[10px] font-bold px-2 py-0.5 rounded-sm uppercase shrink-0">High Severity</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant text-sm mb-3">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+<span class="truncate">42nd St &amp; Broadway</span>
+</div>
+</div>
+</div>
+<div class="mt-4 flex items-center justify-between pt-4 border-t border-surface-variant/20">
+<div class="flex -space-x-2">
+<img alt="Officer" class="w-6 h-6 rounded-full border-2 border-surface-container-low" data-alt="portrait headshot of a responder" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxV3T1rchwoxUuArQ7GpGRqN4JLsmsSj06EPxWwUINgXKQ9IFLP-H7a3t-yNCFxLOIKjPjFoKnkc4_KqKUeUzVvdAGlSUSpUBWmeZpPYta2TLQk7dN0mxODVr_zwBpCgF8a-CB5BCeuUEsYtgIxoTLgiySzvcXyOjM6pKIym0aVyeT_4Nr1Y7xQXtritbnVsS39sT8z32kSyQbRExE_MSZcJo1HIoUllxouq7i0HaPkNJC2hkuj3gbfezjIREtmH40GoIYbOnRHm8I"/>
+<img alt="Officer" class="w-6 h-6 rounded-full border-2 border-surface-container-low" data-alt="portrait headshot of another responder" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCWAOPrZOjYoLEJ9628xYfyBv_tUf8zO4C5-B71-Lwy7gKjK0q0-jZK8Y4syztM4Y3sCu0Mftu_psW2JmGOJ0Vda0O6TZEMz4A6uMonmKCaArQb_OPUVLcsmDanphcqbfsmxiydptQmJIBzJPoM2vY2zWA3vu8IHLaAcqvMqd9YlZEf4_Xn4ny0AzbvJurakUTiD_TwqdM3HHTiENjPzZPHTYyf9FdsCkJycXsy90Q8RhBOFQYEMRjh0kTO_-5e7LhK7eIRR2BjGN3"/>
+<div class="w-6 h-6 rounded-full bg-surface-container-high border-2 border-surface-container-low flex items-center justify-center text-[10px] text-primary font-bold">+2</div>
+</div>
+<div class="relative">
+<select class="appearance-none bg-surface-container-highest text-primary text-xs font-bold py-2 pl-4 pr-10 rounded-xl border-none focus:ring-1 focus:ring-primary/40 transition-all cursor-pointer">
+<option>DISPATCHED</option>
+<option>IN PROGRESS</option>
+<option>RESOLVED</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-primary pointer-events-none text-[18px]">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Report Card 2 -->
+<div class="bg-surface-container-low p-5 rounded-[24px] group">
+<div class="flex gap-4">
+<div class="relative w-20 h-20 shrink-0">
+<img alt="Incident thumbnail" class="w-full h-full object-cover rounded-xl" data-alt="broken city streetlight in a modern urban district with twilight lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCradpQxdKlMZAWrGvNEGgqtZZGxnL8puy2dkJeihe1faCP8oH57jNUbvJeWlwwXAbVd2JgRLH1t1Wh8-TEuW4XK8s2OTye2tbM2XmER12pwmDVZ3MMQou57X2m1rb8-xIA84WTSABG3kPZIDp-eOXbJwMuoCtKq_IWCUJ6rg0tB4iMkljnXNHk4Mghan3CZADi3GK8JdYCqBfRyyWgMuYJKqlSOauC9D3tjDf6pODEIiUQ3ho_t2D7wWFs6xfvC59r1rdo9tKHQy4j"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<h3 class="text-on-surface font-headline font-bold text-base truncate pr-2">Streetlight Damage</h3>
+<span class="bg-secondary-container text-on-secondary-container text-[10px] font-bold px-2 py-0.5 rounded-sm uppercase shrink-0">Low Severity</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant text-sm mb-3">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+<span class="truncate">Oak Avenue, District 4</span>
+</div>
+</div>
+</div>
+<div class="mt-4 flex items-center justify-between pt-4 border-t border-surface-variant/20">
+<div class="flex items-center gap-2 text-on-surface-variant text-xs italic">
+<span class="material-symbols-outlined text-[14px]">history</span>
+                        Reported 2h ago
+                    </div>
+<div class="relative">
+<select class="appearance-none bg-surface-container-highest text-primary text-xs font-bold py-2 pl-4 pr-10 rounded-xl border-none focus:ring-1 focus:ring-primary/40 transition-all cursor-pointer">
+<option>PENDING</option>
+<option>ASSIGNED</option>
+<option>ARCHIVED</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-primary pointer-events-none text-[18px]">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Report Card 3 (Bento Style) -->
+<div class="bg-surface-container-low p-5 rounded-[24px]">
+<div class="grid grid-cols-2 gap-4 mb-4">
+<div class="bg-surface-container-lowest p-4 rounded-2xl">
+<span class="text-tertiary text-[10px] font-bold uppercase tracking-widest block mb-1">Impact</span>
+<div class="text-2xl font-black text-on-surface">-15% <span class="text-xs font-normal text-on-surface-variant">Efficiency</span></div>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-2xl">
+<span class="text-secondary text-[10px] font-bold uppercase tracking-widest block mb-1">ETA</span>
+<div class="text-2xl font-black text-on-surface">24<span class="text-xs font-normal text-on-surface-variant">MIN</span></div>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-full">
+<h3 class="text-on-surface font-headline font-bold text-base mb-1">Water Main Leakage</h3>
+<div class="flex items-center gap-1 text-on-surface-variant text-sm mb-3">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+<span>Riverside Industrial Area</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-2 bg-[#0b1326]/60 backdrop-blur-xl rounded-t-[24px] shadow-[0_-8px_32px_rgba(0,26,66,0.08)]">
+<a class="flex flex-col items-center justify-center text-[#2d3449] px-5 py-2 hover:text-[#adc6ff] transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-[0.05em] uppercase mt-1">Overview</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#2d3449] px-5 py-2 hover:text-[#adc6ff] transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-[0.05em] uppercase mt-1">Map</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-gradient-to-br from-[#adc6ff] to-[#4d8eff] text-[#0b1326] rounded-[12px] px-5 py-2 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="assignment" style="font-variation-settings: 'FILL' 1;">assignment</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-[0.05em] uppercase mt-1">Reports</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#2d3449] px-5 py-2 hover:text-[#adc6ff] transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-[0.05em] uppercase mt-1">Team</span>
+</a>
+</nav>
+</body></html>

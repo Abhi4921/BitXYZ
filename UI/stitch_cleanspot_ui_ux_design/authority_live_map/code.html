@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Authority Mobile Dashboard - Live Map</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary": "#adc6ff",
+                    "on-primary-fixed-variant": "#004395",
+                    "primary-fixed": "#d8e2ff",
+                    "error": "#ffb4ab",
+                    "on-tertiary-container": "#340080",
+                    "on-tertiary": "#3c0091",
+                    "surface-bright": "#31394d",
+                    "on-tertiary-fixed": "#23005c",
+                    "secondary-fixed-dim": "#4edea3",
+                    "inverse-primary": "#005ac2",
+                    "secondary-container": "#00a572",
+                    "on-surface-variant": "#c2c6d6",
+                    "primary-container": "#4d8eff",
+                    "error-container": "#93000a",
+                    "surface": "#0b1326",
+                    "inverse-surface": "#dae2fd",
+                    "tertiary-container": "#a078ff",
+                    "surface-variant": "#2d3449",
+                    "on-error": "#690005",
+                    "tertiary-fixed-dim": "#d0bcff",
+                    "surface-container-lowest": "#060e20",
+                    "surface-container-highest": "#2d3449",
+                    "secondary": "#4edea3",
+                    "surface-container-high": "#222a3d",
+                    "tertiary": "#d0bcff",
+                    "on-secondary": "#003824",
+                    "surface-container-low": "#131b2e",
+                    "on-error-container": "#ffdad6",
+                    "outline": "#8c909f",
+                    "background": "#0b1326",
+                    "secondary-fixed": "#6ffbbe",
+                    "surface-dim": "#0b1326",
+                    "on-surface": "#dae2fd",
+                    "on-primary-fixed": "#001a42",
+                    "on-primary-container": "#00285d",
+                    "on-secondary-container": "#00311f",
+                    "on-secondary-fixed-variant": "#005236",
+                    "outline-variant": "#424754",
+                    "on-primary": "#002e6a",
+                    "inverse-on-surface": "#283044"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .map-gradient-overlay {
+            background: linear-gradient(to bottom, rgba(11, 19, 38, 0.8) 0%, rgba(11, 19, 38, 0) 20%, rgba(11, 19, 38, 0) 80%, rgba(11, 19, 38, 0.8) 100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body select-none">
+<!-- TopAppBar -->
+<header class="bg-[#0b1326] flex justify-between items-center px-6 py-4 w-full fixed top-0 z-[60]">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden border border-outline-variant/20">
+<img alt="Authority profile image" class="w-full h-full object-cover" data-alt="close-up professional portrait of a municipal authority official in a dark navy uniform with a subtle badge" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIxP5K8kk-tOcyVujEOTnl17lBDeCzLiv6Myic21XdgwIicvjy63H8_I1MIsOHRimb2yeLXvyU3w_lQrHJrfcqpUScK9DkrYykf3yOd9y4DATBAF_ESNXKcbWeaNCtRrnKRBM9bXeqfPDwKBRIdo42_TC6zPtKyR2ZsHYZydY5_9Qq6Vpads3DzYRZIcYAmlbApcHjlPqm4wJc_y6OQDTORH-AC_dU5bRnjzXVGPr0zbBx4jDmcfjl_Lq2SYRUQFuTLvzKiJIsb8OC"/>
+</div>
+<span class="text-xl font-black tracking-[-0.02em] text-[#adc6ff] font-['Inter']">Authority</span>
+</div>
+<button class="text-[#adc6ff] hover:bg-[#171f33] transition-colors p-2 rounded-full active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</header>
+<!-- Map Canvas -->
+<main class="relative h-screen w-full overflow-hidden pt-16">
+<!-- Background Map Image -->
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover" data-alt="top-down high-contrast satellite map of an urban city center with dark blue night mode styling and glowing neon arterial roads" data-location="San Francisco" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0S3zyII5ftdQlHwe_QBPo3Kik2nxFvPfr_JSnBH6xcHtakLH2ltYFuUP3MSNYHZtcxfgZG_tH8TRT0NfLL21tBYvA_dJ5Nil3NyU17GA97eicuZZd9gdP7NYdRwZ42SRV7zDi0EQD7B-HuGkKPRbRBQNdU4AThzmQzIiZ1gQoa4Y910J7YdmfZqcKNezeODeaE8SRz_d75yPzZETUfG8TYPZ-nOoYetwSwNelXkkRuQzs39axfGhoXfQQ9L--wrTbaQUzwu3YrpMB"/>
+<div class="absolute inset-0 map-gradient-overlay pointer-events-none"></div>
+</div>
+<!-- Floating UI Overlays -->
+<!-- Active Incidents Counter -->
+<div class="absolute top-24 left-6 z-10">
+<div class="bg-surface-container/60 backdrop-blur-xl px-4 py-2 rounded-xl shadow-[0_8px_32px_rgba(0,26,66,0.15)] flex flex-col items-start border border-outline-variant/10">
+<span class="font-label text-[10px] font-medium tracking-[0.05em] uppercase text-on-surface-variant">Active Incidents</span>
+<span class="text-2xl font-black text-tertiary tracking-tight">42</span>
+</div>
+</div>
+<!-- Heatmap Toggle (Glassmorphism) -->
+<div class="absolute top-24 right-6 z-10">
+<button class="bg-surface-variant/60 backdrop-blur-xl p-3 rounded-xl shadow-lg border border-outline-variant/20 text-on-surface active:scale-90 duration-200">
+<span class="material-symbols-outlined block" data-icon="layers">layers</span>
+</button>
+</div>
+<!-- Map Pins (Mock Data) -->
+<!-- Critical Pin -->
+<div class="absolute top-[40%] left-[30%] z-20">
+<div class="relative flex flex-col items-center">
+<div class="bg-error-container text-on-error-container p-2 rounded-lg shadow-xl animate-pulse">
+<span class="material-symbols-outlined text-lg" data-icon="warning" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div class="w-1 h-3 bg-error-container mt-[-2px]"></div>
+</div>
+</div>
+<!-- Medium Severity Pin -->
+<div class="absolute top-[55%] left-[65%] z-20">
+<div class="relative flex flex-col items-center">
+<div class="bg-tertiary-container text-on-tertiary-container p-2 rounded-lg shadow-xl">
+<span class="material-symbols-outlined text-lg" data-icon="report" style="font-variation-settings: 'FILL' 1;">report</span>
+</div>
+<div class="w-1 h-3 bg-tertiary-container mt-[-2px]"></div>
+</div>
+</div>
+<!-- General Info Pin -->
+<div class="absolute top-[25%] left-[75%] z-20">
+<div class="relative flex flex-col items-center">
+<div class="bg-surface-container-highest text-primary p-2 rounded-lg shadow-xl opacity-80">
+<span class="material-symbols-outlined text-lg" data-icon="location_on" style="font-variation-settings: 'FILL' 1;">location_on</span>
+</div>
+<div class="w-1 h-3 bg-surface-container-highest mt-[-2px]"></div>
+</div>
+</div>
+<!-- Bottom Floating Controls -->
+<div class="absolute bottom-28 left-0 w-full px-6 z-10 space-y-4">
+<!-- Filter Bar (Asymmetric/Editorial) -->
+<div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2">
+<button class="flex-none bg-gradient-to-br from-primary to-primary-container text-on-primary-container px-4 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 shadow-lg">
+<span class="material-symbols-outlined text-sm" data-icon="filter_list">filter_list</span>
+                    All Reports
+                </button>
+<button class="flex-none bg-surface-container/80 backdrop-blur-md text-on-surface px-4 py-2.5 rounded-xl text-sm font-medium border border-outline-variant/10">
+                    High Severity
+                </button>
+<button class="flex-none bg-surface-container/80 backdrop-blur-md text-on-surface px-4 py-2.5 rounded-xl text-sm font-medium border border-outline-variant/10">
+                    Waste
+                </button>
+<button class="flex-none bg-surface-container/80 backdrop-blur-md text-on-surface px-4 py-2.5 rounded-xl text-sm font-medium border border-outline-variant/10">
+                    Infrastructure
+                </button>
+</div>
+<!-- Focus Incident Card (Bottom Peek) -->
+<div class="bg-surface-container-low/90 backdrop-blur-2xl rounded-3xl p-5 border border-outline-variant/10 shadow-2xl">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-error-container/30 flex items-center justify-center text-error">
+<span class="material-symbols-outlined" data-icon="dangerous" style="font-variation-settings: 'FILL' 1;">dangerous</span>
+</div>
+<div>
+<h3 class="font-headline font-bold text-on-surface text-base">Hazardous Spill</h3>
+<p class="text-on-surface-variant text-xs">240m away • 4 min ago</p>
+</div>
+</div>
+<div class="bg-error-container text-on-error-container px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">
+                        High Severity
+                    </div>
+</div>
+<div class="flex gap-3">
+<button class="flex-1 bg-surface-container-high text-primary font-bold py-3 rounded-2xl text-sm active:scale-95 duration-200">
+                        Details
+                    </button>
+<button class="flex-1 bg-gradient-to-br from-tertiary to-on-tertiary-fixed-variant text-on-tertiary-fixed px-6 py-3 rounded-2xl text-sm font-bold active:scale-95 duration-200">
+                        Dispatch Team
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-2 bg-[#0b1326]/60 backdrop-blur-xl rounded-t-[24px] shadow-[0_-8px_32px_rgba(0,26,66,0.08)]">
+<a class="flex flex-col items-center justify-center text-[#2d3449] px-5 py-2 hover:text-[#adc6ff]" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-[0.05em] uppercase mt-1">Overview</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-gradient-to-br from-[#adc6ff] to-[#4d8eff] text-[#0b1326] rounded-[12px] px-5 py-2" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-[0.05em] uppercase mt-1">Map</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#2d3449] px-5 py-2 hover:text-[#adc6ff]" href="#">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-[0.05em] uppercase mt-1">Reports</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#2d3449] px-5 py-2 hover:text-[#adc6ff]" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-[0.05em] uppercase mt-1">Team</span>
+</a>
+</nav>
+<!-- Background Noise/Texture -->
+<div class="fixed inset-0 pointer-events-none opacity-[0.03] z-[100] bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
+</body></html>

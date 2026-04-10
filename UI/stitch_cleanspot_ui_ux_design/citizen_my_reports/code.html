@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CleanSpot - My Reports</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-on-surface": "#283044",
+                    "on-surface-variant": "#c2c6d6",
+                    "primary-container": "#4d8eff",
+                    "on-secondary-fixed-variant": "#005236",
+                    "surface-container": "#171f33",
+                    "on-background": "#dae2fd",
+                    "on-error-container": "#ffdad6",
+                    "surface": "#0b1326",
+                    "primary-fixed-dim": "#adc6ff",
+                    "tertiary-fixed-dim": "#d0bcff",
+                    "primary": "#adc6ff",
+                    "on-error": "#690005",
+                    "surface-dim": "#0b1326",
+                    "inverse-primary": "#005ac2",
+                    "on-tertiary-fixed": "#23005c",
+                    "secondary": "#4edea3",
+                    "on-tertiary-fixed-variant": "#5516be",
+                    "on-primary": "#002e6a",
+                    "on-secondary": "#003824",
+                    "on-secondary-container": "#00311f",
+                    "secondary-fixed-dim": "#4edea3",
+                    "on-primary-fixed": "#001a42",
+                    "on-surface": "#dae2fd",
+                    "on-tertiary-container": "#340080",
+                    "on-primary-fixed-variant": "#004395",
+                    "surface-tint": "#adc6ff",
+                    "secondary-fixed": "#6ffbbe",
+                    "secondary-container": "#00a572",
+                    "tertiary-fixed": "#e9ddff",
+                    "tertiary": "#d0bcff",
+                    "surface-container-highest": "#2d3449",
+                    "inverse-surface": "#dae2fd",
+                    "surface-bright": "#31394d",
+                    "surface-container-lowest": "#060e20",
+                    "tertiary-container": "#a078ff",
+                    "error": "#ffb4ab",
+                    "on-primary-container": "#00285d",
+                    "outline-variant": "#424754",
+                    "on-secondary-fixed": "#002113",
+                    "surface-container-high": "#222a3d",
+                    "surface-container-low": "#131b2e",
+                    "on-tertiary": "#3c0091",
+                    "primary-fixed": "#d8e2ff",
+                    "outline": "#8c909f",
+                    "surface-variant": "#2d3449",
+                    "error-container": "#93000a",
+                    "background": "#0b1326"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "1.5rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen pb-24">
+<!-- Top App Bar -->
+<header class="bg-[#0b1326] dark:bg-[#0b1326] flex justify-between items-center w-full px-6 py-4 docked full-width top-0 z-50">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="professional headshot of a smiling man in a clean blue shirt with soft studio lighting and a neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpLrQWqua96u0tcbTNWtYqJaexHcHY_wPOZvxAlTYy3ojMpi_ieoTHKFFyXUCf8FhK1OJJW_q7OS62ye9zFmrKayScDuzQcdR6z1DKDS8ukjoUXGVk4-oVfBiACQxxlCSgvQMnfwEiT69o3owP8PZHBYIVSRHZ9i99i2hxLu7PgHiHAPs8N4tyvkTD1VfzIz5ReFX-Kk9CrLl21g1y_6_hJIj78EkYlMLGSPUS4Nk_OUo2_mz9CR5GLCIuTwZbAtXcjikFUSFUPKuo"/>
+</div>
+<h1 class="text-xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-[#adc6ff] to-[#4d8eff]">CleanSpot</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-[#adc6ff] hover:opacity-80 transition-opacity active:scale-95 duration-150">
+<span class="material-symbols-outlined" data-icon="dark_mode">dark_mode</span>
+</button>
+</div>
+</header>
+<main class="px-6 py-8 max-w-2xl mx-auto">
+<!-- Header Section -->
+<section class="mb-10 flex justify-between items-end">
+<div>
+<span class="text-xs font-bold tracking-[0.1em] text-primary uppercase mb-2 block">Your Contribution</span>
+<h2 class="text-4xl font-extrabold tracking-tight text-on-background">My Reports</h2>
+</div>
+<div class="text-right">
+<p class="text-3xl font-bold tracking-tight text-primary">12</p>
+<p class="text-[10px] uppercase tracking-wider text-on-surface-variant font-medium">Submissions</p>
+</div>
+</section>
+<!-- Reports List -->
+<div class="space-y-6">
+<!-- Card 1: High Severity / In Progress -->
+<div class="bg-surface-container rounded-xl overflow-hidden group border border-outline-variant/10">
+<div class="flex flex-col md:flex-row">
+<div class="w-full md:w-48 h-48 md:h-auto overflow-hidden">
+<img alt="Trash in park" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="close-up of plastic waste and litter scattered on green grass in a public park under bright daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_9SB0NH-9qhPlQd8GWGyVNqGPNWK52ZrY8wL2vPI8sFPdBT1EUjf7aHH6Xc7Kh1VvStUuLD0NpOp1_TXRat5i6wAHAmH2XOag0UL59xt_HMBgeizbt641q-pWtFWUHALoNl3j-xTwaFlMJcsBsx6EcXFFoQb_a1L_DYmNLUEGyJFag9cjy_TQ6x8OwXMS35FM9kdDaNEAqvlJ8twWpcTIzLU1cXR5YEMwSb724M47n5S-ngCRn9mUT_CTdUnjhiv2p2RIgoucr6ne"/>
+</div>
+<div class="flex-1 p-6 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-lg font-bold text-on-surface mb-1">Central Park East</h3>
+<p class="text-sm text-on-surface-variant">2 hours ago</p>
+</div>
+<div class="bg-error-container text-on-error-container px-3 py-1 rounded-sm text-[10px] font-bold tracking-widest uppercase">
+                                    High Severity
+                                </div>
+</div>
+</div>
+<div class="flex items-center justify-between mt-4">
+<div class="flex items-center gap-2 bg-[#2d3449] px-4 py-2 rounded-full border border-primary/20">
+<span class="w-2 h-2 rounded-full bg-orange-400"></span>
+<span class="text-xs font-bold tracking-wide text-on-primary-fixed">In Progress</span>
+</div>
+<button class="text-primary text-sm font-semibold hover:underline">View Details</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2: Medium Severity / Reported -->
+<div class="bg-surface-container rounded-xl overflow-hidden group border border-outline-variant/10">
+<div class="flex flex-col md:flex-row">
+<div class="w-full md:w-48 h-48 md:h-auto overflow-hidden">
+<img alt="Illegal dumping" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="cardboard boxes and household debris piled on a sidewalk in a metropolitan urban setting at dusk" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAraK5bHn2ZgIyVjIUZzi9enmZptfPMbnBJsIsF5FDMf6jrJv7XOCuBhGHkkWO5QRAiZ4SZ_YauSYtmCl4IHKga_Tqdqs4X39US6HTF-7bL20J0gyH9MTSfZea0vxNIE4tgMHdTqAH2kabUGoOml7EdzqpQaGOQyJzSI4A1dLOgYjVqb2DItcKvKa3sZMhb6T9oAexbNiLawMHePAfw8S3Mu84SWmhpfLWjjdkGWYDtkb6cUajGY6d4w8mrtXCCWSVrETePlIsb33zZ"/>
+</div>
+<div class="flex-1 p-6 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-lg font-bold text-on-surface mb-1">5th Avenue Metro</h3>
+<p class="text-sm text-on-surface-variant">5 hours ago</p>
+</div>
+<div class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-sm text-[10px] font-bold tracking-widest uppercase">
+                                    Medium
+                                </div>
+</div>
+</div>
+<div class="flex items-center justify-between mt-4">
+<div class="flex items-center gap-2 bg-[#2d3449] px-4 py-2 rounded-full border border-primary/20">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="text-xs font-bold tracking-wide text-on-primary-fixed">Reported</span>
+</div>
+<button class="text-primary text-sm font-semibold hover:underline">View Details</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 3: Resolved / Cleaned -->
+<div class="bg-surface-container rounded-xl overflow-hidden group border border-outline-variant/10">
+<div class="flex flex-col md:flex-row">
+<div class="w-full md:w-48 h-48 md:h-auto overflow-hidden relative">
+<img alt="Clean street" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="pristine clean urban street after maintenance with wet pavement reflecting morning light and no litter" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtVwhicX3L3E15QyeDQVZhvxIfWxTzhAaWPqo2dUMLcd0lPJiuU8VBmKI375txGnAR4S04oHB1zSn_DsV4wQk7enYdFzwBzUeE_qQg6zxemA_Z9hJ9GDPrWL-xEuEUQrJN5fCA6ynik19ryNBsWHxDfbJ9usRbg2lVoV0Y_YI0SSUt9npe5CTH9ouhfHlFjDgqQjvrxDg8y5D_cox8eqvodKYFHw3rAqYk3fsAt6sbBiJCRmjUJidDAST4GwewydDQHih4ZgUoEL6O"/>
+<div class="absolute inset-0 bg-secondary/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-white text-4xl" data-weight="fill">check_circle</span>
+</div>
+</div>
+<div class="flex-1 p-6 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-lg font-bold text-on-surface mb-1">Sunset Boulevard</h3>
+<p class="text-sm text-on-surface-variant">Yesterday</p>
+</div>
+<div class="bg-surface-container-highest text-on-surface-variant px-3 py-1 rounded-sm text-[10px] font-bold tracking-widest uppercase">
+                                    Resolved
+                                </div>
+</div>
+</div>
+<div class="flex items-center justify-between mt-4">
+<div class="flex items-center gap-2 bg-secondary/10 px-4 py-2 rounded-full border border-secondary/20">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="text-xs font-bold tracking-wide text-secondary uppercase">Cleaned</span>
+</div>
+<button class="text-on-surface-variant text-sm font-semibold hover:text-white transition-colors">Archive</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Optional Empty State (Commented out in active view, but structured for logic) -->
+<!--
+        <div class="flex flex-col items-center justify-center py-20 text-center">
+            <div class="w-64 h-64 mb-8 relative">
+                <div class="absolute inset-0 bg-primary/10 blur-[80px] rounded-full"></div>
+                <img src="https://images.unsplash.com/photo-1618477388954-7852f32655ec?auto=format&fit=crop&q=80&w=400" alt="Cityscape Illustration" data-alt="stylized vector-style illustration of a clean futuristic city with parks and blue sky in a minimalist aesthetic" class="relative z-10 w-full h-full object-contain">
+            </div>
+            <h3 class="text-2xl font-bold text-on-surface mb-3">No Reports Yet</h3>
+            <p class="text-on-surface-variant max-w-xs mb-8">Your neighborhood is looking great! See something out of place? Start making an impact today.</p>
+            <button class="bg-gradient-to-br from-[#adc6ff] to-[#4d8eff] text-on-primary-container px-8 py-4 rounded-xl font-bold text-lg hover:opacity-90 transition-all active:scale-95">
+                Start Cleaning Your City
+            </button>
+        </div>
+        -->
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pt-3 pb-6 bg-[#131b2e]/60 backdrop-blur-xl dark:bg-[#131b2e]/60 rounded-t-[24px] shadow-[0_-8px_32px_rgba(0,26,66,0.08)] z-50">
+<a class="flex flex-col items-center justify-center text-[#8e9199] px-5 py-2 hover:text-white transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="home">home</span>
+<span class="font-['Inter'] text-[11px] font-medium tracking-wide uppercase">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#8e9199] px-5 py-2 hover:text-white transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="map">map</span>
+<span class="font-['Inter'] text-[11px] font-medium tracking-wide uppercase">Map</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-[#2d3449] text-[#adc6ff] rounded-2xl px-5 py-2 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="assignment_turned_in">assignment_turned_in</span>
+<span class="font-['Inter'] text-[11px] font-medium tracking-wide uppercase">Claims</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#8e9199] px-5 py-2 hover:text-white transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="leaderboard">leaderboard</span>
+<span class="font-['Inter'] text-[11px] font-medium tracking-wide uppercase">Rank</span>
+</a>
+</nav>
+<!-- Floating Action Button (FAB) for Reporting -->
+<button class="fixed bottom-28 right-6 w-16 h-16 bg-gradient-to-br from-[#adc6ff] to-[#4d8eff] text-on-primary-fixed rounded-2xl shadow-2xl flex items-center justify-center active:scale-90 transition-transform z-40">
+<span class="material-symbols-outlined text-3xl font-bold" data-icon="add">add</span>
+</button>
+</body></html>

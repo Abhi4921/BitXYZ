@@ -59,6 +59,8 @@ const FirebaseDB = (() => {
     const liveText = document.getElementById('live-count')?.parentElement;
     if (dot) {
       dot.style.background = connected ? '#00f5a0' : '#ef4444';
+      // Optional: Add a smooth transition if it doesn't already have one in CSS
+      dot.style.transition = 'background-color 0.3s ease';
     }
   }
 
@@ -82,21 +84,23 @@ const FirebaseDB = (() => {
   }
 
   // ── Compress photo → base64 (stored directly in Firebase RTDB, 100% free) ──
-  // Max 800px wide, 60% JPEG quality → typically 40-80KB as base64
   async function compressToBase64(file) {
     return new Promise(resolve => {
       const img = new Image();
       const blobUrl = URL.createObjectURL(file);
 
       img.onload = () => {
-        const MAX = 800;
+        // Compression settings extracted for easy adjustment
+        const MAX_WIDTH = 800;
+        const JPEG_QUALITY = 0.6; 
+        
         let w = img.width;
         let h = img.height;
 
-        // Scale down if wider than MAX
-        if (w > MAX) {
-          h = Math.round(h * MAX / w);
-          w = MAX;
+        // Scale down if wider than MAX_WIDTH
+        if (w > MAX_WIDTH) {
+          h = Math.round(h * MAX_WIDTH / w);
+          w = MAX_WIDTH;
         }
 
         const canvas = document.createElement('canvas');
@@ -104,14 +108,18 @@ const FirebaseDB = (() => {
         canvas.height = h;
         canvas.getContext('2d').drawImage(img, 0, 0, w, h);
 
-        // Convert to base64 JPEG at 60% quality
-        const base64 = canvas.toDataURL('image/jpeg', 0.6);
+        // Convert to base64 JPEG
+        const base64 = canvas.toDataURL('image/jpeg', JPEG_QUALITY);
         URL.revokeObjectURL(blobUrl);
-        console.log(`[CleanMap] Photo compressed: ${Math.round(base64.length / 1024)}KB`);
+        console.log(`[CleanMap] Photo compressed: ${Math.round(base64.length / 1024)}KB (Quality: ${JPEG_QUALITY * 100}%)`);
         resolve(base64);
       };
 
-      img.onerror = () => { URL.revokeObjectURL(blobUrl); resolve(null); };
+      img.onerror = () => { 
+        URL.revokeObjectURL(blobUrl); 
+        console.error('[CleanMap] Failed to load image for compression.');
+        resolve(null); 
+      };
       img.src = blobUrl;
     });
   }
@@ -120,10 +128,12 @@ const FirebaseDB = (() => {
   async function pushReport(report) {
     if (!isConnected || !reportsRef) return report; // offline fallback
     try {
+      console.log(`[CleanMap] Pushing new report #${report.id}...`);
       // Use the report.id as the Firebase key for easy lookup
       await reportsRef.child(String(report.id)).set(report);
+      console.log(`[CleanMap] Report #${report.id} saved successfully.`);
     } catch (err) {
-      console.error('[CleanMap] Push report error:', err);
+      console.error(`[CleanMap] Push report #${report.id} error:`, err);
     }
     return report;
   }
@@ -132,9 +142,10 @@ const FirebaseDB = (() => {
   async function updateReport(id, patches) {
     if (!isConnected || !reportsRef) return;
     try {
+      console.log(`[CleanMap] Updating report #${id}...`);
       await reportsRef.child(String(id)).update(patches);
     } catch (err) {
-      console.error('[CleanMap] Update report error:', err);
+      console.error(`[CleanMap] Update report #${id} error:`, err);
     }
   }
 

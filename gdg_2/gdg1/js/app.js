@@ -12,6 +12,8 @@ const App = (() => {
     if (initialized) return;
     initialized = true;
 
+    console.log("🚀 Booting CleanMap App Orchestrator...");
+
     // 1. Init Firebase
     const firebaseOk = FirebaseDB.init();
 
@@ -59,9 +61,9 @@ const App = (() => {
     // 10. Welcome toast
     setTimeout(() => {
       const mode = FirebaseDB.isConnected()
-        ? '🔴 Live sync active — changes appear on all devices!'
+        ? '🟢 Live sync active — changes appear on all devices!' 
         : '📱 Offline mode — Firebase not configured.';
-      UI.toast('Welcome to CleanMap!', mode, FirebaseDB.isConnected() ? 'success' : 'warning');
+      UI.toast('Welcome to CleanMap! 🌍', mode, FirebaseDB.isConnected() ? 'success' : 'warning');
     }, 1000);
   }
 
@@ -79,7 +81,7 @@ const App = (() => {
             width:40px;height:40px;border:3px solid rgba(0,245,160,0.2);
             border-top-color:#00f5a0;border-radius:50%;animation:spin 0.8s linear infinite;
           "></div>
-          <p style="color:#94a3b8;font-size:0.82rem;font-weight:600;">Connecting to Firebase…</p>
+          <p style="color:#94a3b8;font-size:0.82rem;font-weight:600;">Connecting to Firebase Database…</p>
         </div>
         <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
       `);
@@ -94,7 +96,7 @@ const App = (() => {
   function seedLocalFallback() {
     const dummyReports = [
       { id: 1001, severity: 3, status: 'pending', description: 'Large construction debris dumped near park entrance. Blocking the footpath.', lat: 12.9716, lng: 77.5946, reporter: 'Priya Patel', timestamp: Date.now() - 5400000, timeline: [{ action: 'Reported', time: Date.now() - 5400000, actor: 'Priya Patel' }], photoUrl: null, claimedBy: null },
-      { id: 1002, severity: 2, status: 'pending', description: 'Overflowing bin near MG Road metro. Waste scattered by stray animals.', lat: 12.9757, lng: 77.6071, reporter: 'Arjun Sharma', timestamp: Date.now() - 4500000, timeline: [{ action: 'Reported', time: Date.now() - 4500000, actor: 'Arjun Sharma' }], photoUrl: null, claimedBy: null },
+      { id: 1002, severity: 2, status: 'pending', description: 'Overflowing public bin near MG Road metro. Waste scattered everywhere.', lat: 12.9757, lng: 77.6071, reporter: 'Arjun Sharma', timestamp: Date.now() - 4500000, timeline: [{ action: 'Reported', time: Date.now() - 4500000, actor: 'Arjun Sharma' }], photoUrl: null, claimedBy: null },
       { id: 1003, severity: 1, status: 'pending', description: 'Scattered plastic bottles along Ulsoor Lake walkway.', lat: 12.9820, lng: 77.6188, reporter: 'Kavitha Nair', timestamp: Date.now() - 3600000, timeline: [{ action: 'Reported', time: Date.now() - 3600000, actor: 'Kavitha Nair' }], photoUrl: null, claimedBy: null },
       { id: 1004, severity: 3, status: 'progress', description: 'Chemical containers illegally dumped behind industrial complex. Hazardous leakage.', lat: 12.9611, lng: 77.5800, reporter: 'Rajesh Gupta', timestamp: Date.now() - 7200000, claimedBy: 'Suresh Mehta', timeline: [{ action: 'Reported', time: Date.now() - 7200000, actor: 'Rajesh Gupta' }, { action: 'Claimed for cleanup', time: Date.now() - 3600000, actor: 'Suresh Mehta' }], photoUrl: null },
       { id: 1005, severity: 2, status: 'pending', description: 'Broken glass and metal scrap near Jayanagar market.', lat: 12.9308, lng: 77.5838, reporter: 'Meena Iyer', timestamp: Date.now() - 2700000, timeline: [{ action: 'Reported', time: Date.now() - 2700000, actor: 'Meena Iyer' }], photoUrl: null, claimedBy: null },
@@ -142,7 +144,7 @@ const App = (() => {
     // ── GPS button ──
     document.getElementById('btn-gps')?.addEventListener('click', () => {
       if (!navigator.geolocation) {
-        UI.toast('GPS Unavailable', 'Geolocation not supported.', 'error');
+        UI.toast('GPS Unavailable', 'Geolocation not supported by this browser.', 'error');
         return;
       }
       const btn = document.getElementById('btn-gps');

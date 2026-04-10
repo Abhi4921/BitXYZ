@@ -1,5 +1,6 @@
 /* ════════════════════════════════════════
    CleanMap — UI Controller (Mobile)
+   With: Leaderboard, Proof UI, i18n
    ════════════════════════════════════════ */
 
 const UI = (() => {
@@ -97,7 +98,7 @@ const UI = (() => {
 
     if (reports.length === 0) {
       container.innerHTML = `<div style="text-align:center;color:var(--text-muted);padding:2rem;font-size:0.85rem;">
-        No reports match this filter.
+        ${i18n.t('reports.empty')}
       </div>`;
       return;
     }
@@ -105,13 +106,15 @@ const UI = (() => {
     container.innerHTML = reports.map(r => {
       const sev = CLEANMAP.SEVERITY[r.severity];
       const stat = CLEANMAP.STATUSES[r.status];
+      const sevLabel = i18n.t(`severity.${sev?.cssClass}`) || sev?.label;
+      const statusLabel = i18n.t(`status.${r.status}`) || stat?.label;
       return `
         <div class="report-card sev-${r.severity}" data-id="${r.id}" onclick="App.openDetail(${r.id})">
           <div class="report-card-top">
-            <span class="report-card-sev sev-${sev?.cssClass}-badge">${sev?.label}</span>
+            <span class="report-card-sev sev-${sev?.cssClass}-badge">${sevLabel}</span>
             <span class="report-card-status status-${r.status}">
               <span class="status-dot-sm"></span>
-              ${stat?.label}
+              ${statusLabel}
             </span>
           </div>
           <p class="report-card-desc">${r.description}</p>
@@ -123,27 +126,95 @@ const UI = (() => {
     }).join('');
   }
 
-  // ── Spot Detail Modal ──
+  // ═══════════════════════════════════════
+  //  LEADERBOARD
+  // ═══════════════════════════════════════
+
+  function renderLeaderboard() {
+    const container = document.getElementById('leaderboard-list');
+    if (!container) return;
+
+    const leaders = CLEANMAP.getLeaderboard();
+
+    if (leaders.length === 0) {
+      container.innerHTML = `<div class="leaderboard-empty">${i18n.t('leaderboard.nodata')}</div>`;
+      return;
+    }
+
+    const maxScore = leaders[0]?.score || 1;
+
+    container.innerHTML = leaders.map((entry, idx) => {
+      const rank = idx + 1;
+      const medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : `#${rank}`;
+      const rankClass = rank <= 3 ? `rank-${rank}` : '';
+      const barWidth = Math.max((entry.score / maxScore) * 100, 8);
+
+      return `
+        <div class="leaderboard-item">
+          <div class="leaderboard-rank ${rankClass}">${medal}</div>
+          <div class="leaderboard-info">
+            <div class="leaderboard-name">${entry.name}</div>
+            <div class="leaderboard-stats">
+              <span class="leaderboard-stat">📍 ${entry.reports} ${i18n.t('leaderboard.reports')}</span>
+              <span class="leaderboard-stat">🧹 ${entry.cleanups} ${i18n.t('leaderboard.cleanups')}</span>
+            </div>
+            <div class="leaderboard-bar" style="margin-top:0.4rem;">
+              <div class="leaderboard-bar-fill" style="width:${barWidth}%"></div>
+            </div>
+          </div>
+          <div class="leaderboard-score-section">
+            <div class="leaderboard-score">${entry.score}</div>
+            <div class="leaderboard-scoreLabel">${i18n.t('leaderboard.score')}</div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  // ═══════════════════════════════════════
+  //  SPOT DETAIL MODAL (with proof support)
+  // ═══════════════════════════════════════
+
   function openDetail(report) {
     const sev = CLEANMAP.SEVERITY[report.severity];
     const stat = CLEANMAP.STATUSES[report.status];
+    const sevLabel = i18n.t(`severity.${sev?.cssClass}`) || sev?.label;
+    const statusLabel = i18n.t(`status.${report.status}`) || stat?.label;
 
-    document.getElementById('detail-title').textContent = `${sev?.label} Severity Spot`;
+    document.getElementById('detail-title').textContent = `${sevLabel} Severity Spot`;
 
     const body = document.getElementById('detail-body');
+
+    // Build proof comparison if both photos exist
+    let proofSection = '';
+    if (report.photoUrl && report.afterPhotoUrl) {
+      proofSection = `
+        <div class="proof-photos">
+          <div class="proof-photo-item">
+            <span class="proof-photo-label">${i18n.t('form.beforePhoto')}</span>
+            <img class="detail-photo" id="proof-compare-before" alt="Before" style="margin-bottom:0;" />
+          </div>
+          <div class="proof-photo-item">
+            <span class="proof-photo-label">${i18n.t('form.afterPhoto')}</span>
+            <img class="detail-photo" id="proof-compare-after" alt="After" style="margin-bottom:0;" />
+          </div>
+        </div>`;
+    } else if (report.photoUrl) {
+      proofSection = `<img class="detail-photo" id="detail-photo-img" alt="Spot photo" />`;
+    }
+
     body.innerHTML = `
-      ${report.photoUrl ? `<img class="detail-photo" id="detail-photo-img" alt="Spot photo" />` : ''}
+      ${proofSection}
       <div class="detail-grid">
         <div class="detail-field">
-          <span class="detail-field-label">Severity</span>
+          <span class="detail-field-label">${i18n.t('severity.low') ? 'Severity' : 'Severity'}</span>
           <span class="detail-field-value">
-            <span class="detail-status-badge sev-${sev?.cssClass}-badge">${sev?.label}</span>
+            <span class="detail-status-badge sev-${sev?.cssClass}-badge">${sevLabel}</span>
           </span>
         </div>
         <div class="detail-field">
           <span class="detail-field-label">Status</span>
           <span class="detail-field-value">
-            <span class="detail-status-badge ${stat?.badgeClass}">${stat?.icon} ${stat?.label}</span>
+            <span class="detail-status-badge ${stat?.badgeClass}">${stat?.icon} ${statusLabel}</span>
           </span>
         </div>
         <div class="detail-field">
@@ -159,6 +230,10 @@ const UI = (() => {
           <span class="detail-field-label">Claimed By</span>
           <span class="detail-field-value">🧹 ${report.claimedBy}</span>
         </div>` : ''}
+        <div class="detail-field">
+          <span class="detail-field-label">Points</span>
+          <span class="detail-field-value">⭐ ${CLEANMAP.SEVERITY[report.severity]?.points || 0} pts</span>
+        </div>
       </div>
       <p class="detail-desc">${report.description}</p>
       <div class="detail-field" style="margin-bottom:0.5rem;">
@@ -175,33 +250,52 @@ const UI = (() => {
         </div>
       </div>`;
 
-    // Set photo src via JavaScript (not innerHTML) so base64 is never truncated or mangled
-    if (report.photoUrl) {
+    // Set photo sources via JS (not innerHTML) so base64 is never truncated
+    if (report.photoUrl && report.afterPhotoUrl) {
+      const beforeImg = document.getElementById('proof-compare-before');
+      const afterImg = document.getElementById('proof-compare-after');
+      if (beforeImg) beforeImg.src = report.photoUrl;
+      if (afterImg) afterImg.src = report.afterPhotoUrl;
+    } else if (report.photoUrl) {
       const imgEl = document.getElementById('detail-photo-img');
       if (imgEl) imgEl.src = report.photoUrl;
     }
 
-    // Footer actions
+    // Footer actions — strict status flow
     const footer = document.getElementById('detail-footer');
+
     if (report.status === 'pending') {
-      footer.innerHTML = `<button class="btn-claim" id="btn-detail-claim">🧹 Claim for Cleanup</button>`;
+      // Can claim
+      footer.innerHTML = `<button class="btn-claim" id="btn-detail-claim">🧹 ${i18n.t('action.claim')}</button>`;
       document.getElementById('btn-detail-claim').addEventListener('click', async () => {
         const btn = document.getElementById('btn-detail-claim');
         if (btn) { btn.disabled = true; btn.textContent = 'Claiming…'; }
         await App.claimSpot(report.id);
         closeModal('modal-detail');
       });
+
     } else if (report.status === 'progress') {
-      footer.innerHTML = `<button class="btn-resolve" id="btn-detail-resolve">✅ Mark as Cleaned</button>`;
+      // Can submit proof (before/after photos)
+      footer.innerHTML = `<button class="btn-submit-proof" id="btn-detail-proof">📸 ${i18n.t('action.submitProof')}</button>`;
+      document.getElementById('btn-detail-proof').addEventListener('click', () => {
+        closeModal('modal-detail');
+        App.openProofModal(report.id);
+      });
+
+    } else if (report.status === 'proof_pending') {
+      // Can verify & close
+      footer.innerHTML = `<button class="btn-resolve" id="btn-detail-resolve">✅ ${i18n.t('action.resolve')}</button>`;
       document.getElementById('btn-detail-resolve').addEventListener('click', async () => {
         const btn = document.getElementById('btn-detail-resolve');
-        if (btn) { btn.disabled = true; btn.textContent = 'Saving…'; }
+        if (btn) { btn.disabled = true; btn.textContent = 'Verifying…'; }
         await App.resolveSpot(report.id);
         closeModal('modal-detail');
       });
+
     } else {
+      // Resolved
       footer.innerHTML = `<div style="text-align:center;color:var(--accent-green);font-weight:700;font-size:0.85rem;padding:0.5rem;">
-        ✅ This spot has been cleaned!
+        ✅ ${i18n.t('status.resolved')}
       </div>`;
     }
 
@@ -242,6 +336,30 @@ const UI = (() => {
     document.getElementById(id)?.classList.add('hidden');
   }
 
+  // ═══════════════════════════════════════
+  //  i18n — Apply translations to DOM
+  // ═══════════════════════════════════════
+
+  function applyTranslations() {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      const translated = i18n.t(key);
+      if (translated && translated !== key) {
+        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+          el.placeholder = translated;
+        } else {
+          el.textContent = translated;
+        }
+      }
+    });
+
+    // Update language buttons active state
+    const lang = i18n.getLanguage();
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
+  }
+
   // ── Screen Navigation ──
   function switchScreen(name) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -264,6 +382,9 @@ const UI = (() => {
     if (name === 'reports') {
       renderReportsList();
     }
+    if (name === 'leaderboard') {
+      renderLeaderboard();
+    }
   }
 
   return {
@@ -271,10 +392,12 @@ const UI = (() => {
     updateDashboard,
     renderActivityFeed,
     renderReportsList,
+    renderLeaderboard,
     openDetail,
     openReportModal,
     resetReportForm,
     closeModal,
     switchScreen,
+    applyTranslations,
   };
 })();

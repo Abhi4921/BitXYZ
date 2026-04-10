@@ -1,20 +1,32 @@
 /* ════════════════════════════════════════
    CleanMap — Data Store (Firebase-backed)
+   With: Proof validation, Leaderboard scoring,
+         Strict status flow, i18n support
    ════════════════════════════════════════ */
 
 const CLEANMAP = (() => {
 
   // ── Severity Levels (3 levels: Low / Medium / High) ──
   const SEVERITY = {
-    1: { label: 'Low',    color: '#22c55e', cssClass: 'low',    markerClass: 'marker-low' },
-    2: { label: 'Medium', color: '#f97316', cssClass: 'medium', markerClass: 'marker-medium' },
-    3: { label: 'High',   color: '#ef4444', cssClass: 'high',   markerClass: 'marker-high' },
+    1: { label: 'Low',    color: '#22c55e', cssClass: 'low',    markerClass: 'marker-low',    points: 10 },
+    2: { label: 'Medium', color: '#f97316', cssClass: 'medium', markerClass: 'marker-medium', points: 25 },
+    3: { label: 'High',   color: '#ef4444', cssClass: 'high',   markerClass: 'marker-high',   points: 50 },
   };
 
+  // ── Strict Status Flow: pending → progress → proof_pending → resolved ──
   const STATUSES = {
-    pending:  { label: 'Pending',     icon: '🟡', badgeClass: 'badge-pending' },
-    progress: { label: 'In Progress', icon: '🔵', badgeClass: 'badge-progress' },
-    resolved: { label: 'Cleaned',     icon: '✅', badgeClass: 'badge-resolved' },
+    pending:       { label: 'Pending',       icon: '🟡', badgeClass: 'badge-pending' },
+    progress:      { label: 'In Progress',   icon: '🔵', badgeClass: 'badge-progress' },
+    proof_pending: { label: 'Proof Pending', icon: '📸', badgeClass: 'badge-proof-pending' },
+    resolved:      { label: 'Cleaned',       icon: '✅', badgeClass: 'badge-resolved' },
+  };
+
+  // Valid transitions (strict flow)
+  const VALID_TRANSITIONS = {
+    pending:       ['progress'],
+    progress:      ['proof_pending'],
+    proof_pending: ['resolved'],
+    resolved:      [],
   };
 
   // ── Base center — Bangalore, India ──
@@ -41,8 +53,6 @@ const CLEANMAP = (() => {
 
   // ── Helpers ──
   function nextId()  { return ++state.idCounter; }
-  function rnd(a,b)  { return a + Math.random() * (b - a); }
-  function randInt(a,b) { return Math.floor(rnd(a, b + 1)); }
 
   function timeAgo(date) {
     const seconds = Math.floor((Date.now() - date) / 1000);
@@ -54,6 +64,38 @@ const CLEANMAP = (() => {
 
   function setCenter(lat, lng) {
     CENTER = { lat, lng };
+  }
+
+  // ═══════════════════════════════════════════
+  //  LEADERBOARD SCORING
+  //  Low = 10pts, Medium = 25pts, High = 50pts
+  //  Reporters get points for reporting
+  //  Volunteers get points for cleaning
+  // ═══════════════════════════════════════════
+
+  function getLeaderboard() {
+    const scores = {};
+
+    state.reports.forEach(report => {
+      const pts = SEVERITY[report.severity]?.points || 10;
+
+      // Reporter gets points for reporting
+      const reporter = report.reporter || 'Anonymous';
+      if (!scores[reporter]) scores[reporter] = { name: reporter, score: 0, reports: 0, cleanups: 0 };
+      scores[reporter].score += pts;
+      scores[reporter].reports++;
+
+      // Volunteer gets points for cleaning (only if resolved or proof submitted)
+      if (report.claimedBy && (report.status === 'proof_pending' || report.status === 'resolved')) {
+        const volunteer = report.claimedBy;
+        if (!scores[volunteer]) scores[volunteer] = { name: volunteer, score: 0, reports: 0, cleanups: 0 };
+        scores[volunteer].score += pts;
+        scores[volunteer].cleanups++;
+      }
+    });
+
+    return Object.values(scores)
+      .sort((a, b) => b.score - a.score);
   }
 
   // ═══════════════════════════════════════════
@@ -72,48 +114,84 @@ const CLEANMAP = (() => {
       status:      'pending',
       timestamp:   Date.now(),
       reporter:    reporter || 'Anonymous',
-      photoUrl:    photoUrl || null,
+      photoUrl:    photoUrl || null,      // "Before" photo
+      afterPhotoUrl: null,                 // "After" photo (set during proof)
       claimedBy:   null,
       timeline: [
-        { action: 'Reported', time: Date.now(), actor: reporter || 'Anonymous' }
+        { action: i18n.t('timeline.reported'), time: Date.now(), actor: reporter || 'Anonymous' }
       ],
     };
 
     // Write to Firebase → triggers real-time update on all devices
     await FirebaseDB.pushReport(report);
 
-    addActivity(`📍 New ${SEVERITY[report.severity]?.label} spot reported`, '📍');
+    addActivity(i18n.t('activity.spotReported', { severity: SEVERITY[report.severity]?.label }), '📍');
     return report;
   }
 
+  // STRICT FLOW: pending → progress (claim)
   async function claimReport(id) {
     const r = state.reports.find(r => r.id === id);
-    if (!r || r.status !== 'pending') return false;
+    if (!r) return false;
 
+    // Strict: only pending → progress
+    if (!VALID_TRANSITIONS[r.status]?.includes('progress')) return false;
+
+    const actor = window._reporterName || 'Volunteer';
     const newTimeline = [
       ...r.timeline,
-      { action: 'Claimed for cleanup', time: Date.now(), actor: 'Volunteer' }
+      { action: i18n.t('timeline.claimed'), time: Date.now(), actor }
     ];
 
-    // Patch only the changed fields in Firebase
     await FirebaseDB.updateReport(id, {
       status:    'progress',
-      claimedBy: 'Volunteer',
+      claimedBy: actor,
       timeline:  newTimeline,
     });
 
-    addActivity(`🧹 Spot #${id} claimed for cleanup!`, '🧹');
+    addActivity(i18n.t('activity.spotClaimed', { id }), '🧹');
     return true;
   }
 
+  // STRICT FLOW: progress → proof_pending (submit before/after proof)
+  async function submitProof(id, afterPhotoUrl) {
+    const r = state.reports.find(r => r.id === id);
+    if (!r) return false;
+
+    // Strict: only progress → proof_pending
+    if (!VALID_TRANSITIONS[r.status]?.includes('proof_pending')) return false;
+
+    // Require after photo
+    if (!afterPhotoUrl) return false;
+
+    const actor = r.claimedBy || window._reporterName || 'Volunteer';
+    const newTimeline = [
+      ...r.timeline,
+      { action: i18n.t('timeline.proofSubmitted'), time: Date.now(), actor }
+    ];
+
+    await FirebaseDB.updateReport(id, {
+      status:        'proof_pending',
+      afterPhotoUrl: afterPhotoUrl,
+      timeline:      newTimeline,
+    });
+
+    addActivity(i18n.t('activity.proofSubmitted', { id }), '📸');
+    return true;
+  }
+
+  // STRICT FLOW: proof_pending → resolved (verify & close)
   async function resolveReport(id) {
     const r = state.reports.find(r => r.id === id);
-    if (!r || r.status !== 'progress') return false;
+    if (!r) return false;
+
+    // Strict: only proof_pending → resolved
+    if (!VALID_TRANSITIONS[r.status]?.includes('resolved')) return false;
 
     const actor = r.claimedBy || 'Volunteer';
     const newTimeline = [
       ...r.timeline,
-      { action: 'Area cleaned up! 🎉', time: Date.now(), actor }
+      { action: i18n.t('timeline.resolved'), time: Date.now(), actor }
     ];
 
     await FirebaseDB.updateReport(id, {
@@ -121,14 +199,12 @@ const CLEANMAP = (() => {
       timeline: newTimeline,
     });
 
-    addActivity(`✅ Spot #${id} cleaned! Great work!`, '✅');
+    addActivity(i18n.t('activity.spotCleaned', { id }), '✅');
     return true;
   }
 
   // ═══════════════════════════════════════════
   //  REAL-TIME LISTENER (called once on boot)
-  //  Fires on THIS device AND all others
-  //  whenever any report changes in Firebase
   // ═══════════════════════════════════════════
 
   function startRealtimeSync() {
@@ -164,7 +240,7 @@ const CLEANMAP = (() => {
         reporter: 'Priya Patel',
         timestamp: Date.now() - 5400000,
         timeline: [{ action: 'Reported', time: Date.now() - 5400000, actor: 'Priya Patel' }],
-        photoUrl: null, claimedBy: null,
+        photoUrl: null, afterPhotoUrl: null, claimedBy: null,
       },
       {
         id: 1002, severity: 2, status: 'pending',
@@ -173,7 +249,7 @@ const CLEANMAP = (() => {
         reporter: 'Arjun Sharma',
         timestamp: Date.now() - 4500000,
         timeline: [{ action: 'Reported', time: Date.now() - 4500000, actor: 'Arjun Sharma' }],
-        photoUrl: null, claimedBy: null,
+        photoUrl: null, afterPhotoUrl: null, claimedBy: null,
       },
       {
         id: 1003, severity: 1, status: 'pending',
@@ -182,7 +258,7 @@ const CLEANMAP = (() => {
         reporter: 'Kavitha Nair',
         timestamp: Date.now() - 3600000,
         timeline: [{ action: 'Reported', time: Date.now() - 3600000, actor: 'Kavitha Nair' }],
-        photoUrl: null, claimedBy: null,
+        photoUrl: null, afterPhotoUrl: null, claimedBy: null,
       },
       {
         id: 1004, severity: 3, status: 'progress',
@@ -195,7 +271,7 @@ const CLEANMAP = (() => {
           { action: 'Reported', time: Date.now() - 7200000, actor: 'Rajesh Gupta' },
           { action: 'Claimed for cleanup', time: Date.now() - 3600000, actor: 'Suresh Mehta' },
         ],
-        photoUrl: null,
+        photoUrl: null, afterPhotoUrl: null,
       },
       {
         id: 1005, severity: 2, status: 'pending',
@@ -204,7 +280,7 @@ const CLEANMAP = (() => {
         reporter: 'Meena Iyer',
         timestamp: Date.now() - 2700000,
         timeline: [{ action: 'Reported', time: Date.now() - 2700000, actor: 'Meena Iyer' }],
-        photoUrl: null, claimedBy: null,
+        photoUrl: null, afterPhotoUrl: null, claimedBy: null,
       },
       {
         id: 1006, severity: 1, status: 'resolved',
@@ -216,9 +292,10 @@ const CLEANMAP = (() => {
         timeline: [
           { action: 'Reported', time: Date.now() - 86400000, actor: 'Vikram Singh' },
           { action: 'Claimed for cleanup', time: Date.now() - 82800000, actor: 'Anita Desai' },
+          { action: 'Proof submitted', time: Date.now() - 50000000, actor: 'Anita Desai' },
           { action: 'Area cleaned up! 🎉', time: Date.now() - 43200000, actor: 'Anita Desai' },
         ],
-        photoUrl: null,
+        photoUrl: null, afterPhotoUrl: null,
       },
       {
         id: 1007, severity: 3, status: 'pending',
@@ -227,7 +304,7 @@ const CLEANMAP = (() => {
         reporter: 'Sunita Rao',
         timestamp: Date.now() - 1800000,
         timeline: [{ action: 'Reported', time: Date.now() - 1800000, actor: 'Sunita Rao' }],
-        photoUrl: null, claimedBy: null,
+        photoUrl: null, afterPhotoUrl: null, claimedBy: null,
       },
     ];
 
@@ -252,7 +329,7 @@ const CLEANMAP = (() => {
     const all = state.reports;
     return {
       total:    all.length,
-      progress: all.filter(r => r.status === 'progress').length,
+      progress: all.filter(r => r.status === 'progress' || r.status === 'proof_pending').length,
       resolved: all.filter(r => r.status === 'resolved').length,
       low:      all.filter(r => r.severity === 1 && r.status !== 'resolved').length,
       med:      all.filter(r => r.severity === 2 && r.status !== 'resolved').length,
@@ -271,16 +348,19 @@ const CLEANMAP = (() => {
   return {
     SEVERITY,
     STATUSES,
+    VALID_TRANSITIONS,
     state,
     on,
     setCenter,
     createReport,
     claimReport,
+    submitProof,
     resolveReport,
     startRealtimeSync,
     seedIfEmpty,
     getFilteredReports,
     getStats,
+    getLeaderboard,
     setFilter,
     addActivity,
     timeAgo,

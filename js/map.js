@@ -1,5 +1,6 @@
 /* ════════════════════════════════════════
    CleanMap — Map Engine (Leaflet, Mobile)
+   With: Proof-based status flow support
    ════════════════════════════════════════ */
 
 const MapEngine = (() => {
@@ -43,18 +44,19 @@ const MapEngine = (() => {
     const sev = CLEANMAP.SEVERITY[report.severity];
     let markerClass = sev?.markerClass || 'marker-low';
 
-    // Override colour for "In Progress" (blue)
-    if (report.status === 'progress') markerClass = 'marker-progress';
-    // Resolved spots are dimmed green
-    if (report.status === 'resolved') markerClass = 'marker-resolved';
+    // Override colour for statuses
+    if (report.status === 'progress')      markerClass = 'marker-progress';
+    if (report.status === 'proof_pending') markerClass = 'marker-progress';
+    if (report.status === 'resolved')      markerClass = 'marker-resolved';
 
     // Use emoji icon based on status/severity
     let icon = '🗑️';
-    if (report.status === 'progress')  icon = '🧹';
-    else if (report.status === 'resolved') icon = '✅';
-    else if (report.severity === 1)    icon = '🟢';
-    else if (report.severity === 2)    icon = '🟠';
-    else if (report.severity === 3)    icon = '🔴';
+    if (report.status === 'progress')       icon = '🧹';
+    else if (report.status === 'proof_pending') icon = '📸';
+    else if (report.status === 'resolved')  icon = '✅';
+    else if (report.severity === 1)         icon = '🟢';
+    else if (report.severity === 2)         icon = '🟠';
+    else if (report.severity === 3)         icon = '🔴';
 
     const html = `<div class="custom-marker ${markerClass}">
       <span class="marker-icon">${icon}</span>
@@ -69,24 +71,29 @@ const MapEngine = (() => {
     });
   }
 
-  // ── Build popup HTML ──
+  // ── Build popup HTML with strict status flow ──
   function buildPopupHTML(report) {
     const sev = CLEANMAP.SEVERITY[report.severity];
     const stat = CLEANMAP.STATUSES[report.status];
-
+    const sevLabel = i18n.t(`severity.${sev?.cssClass}`) || sev?.label;
+    const statusLabel = i18n.t(`status.${report.status}`) || stat?.label;
     const sevBadgeClass = `sev-${sev?.cssClass}-badge`;
 
     let actionBtn = '';
     if (report.status === 'pending') {
-      actionBtn = `<button class="popup-btn popup-btn-claim" onclick="App.claimSpot(${report.id})">🧹 Claim for Cleanup</button>`;
+      actionBtn = `<button class="popup-btn popup-btn-claim" onclick="App.claimSpot(${report.id})">🧹 ${i18n.t('action.claim')}</button>`;
     } else if (report.status === 'progress') {
-      actionBtn = `<button class="popup-btn" onclick="App.resolveSpot(${report.id})">✅ Mark as Cleaned</button>`;
+      actionBtn = `<button class="popup-btn" onclick="App.openProofModal(${report.id})">📸 ${i18n.t('action.submitProof')}</button>`;
+    } else if (report.status === 'proof_pending') {
+      actionBtn = `<button class="popup-btn" onclick="App.resolveSpot(${report.id})">✅ ${i18n.t('action.resolve')}</button>`;
     }
 
+    const pts = CLEANMAP.SEVERITY[report.severity]?.points || 0;
+
     return `<div class="popup-card">
-      <div class="popup-type">${sev?.label} Severity</div>
-      <span class="popup-severity ${sevBadgeClass}">${sev?.label}</span>
-      <div class="popup-status">${stat?.icon} ${stat?.label}</div>
+      <div class="popup-type">${sevLabel} Severity</div>
+      <span class="popup-severity ${sevBadgeClass}">${sevLabel} · ⭐ ${pts}pts</span>
+      <div class="popup-status">${stat?.icon} ${statusLabel}</div>
       <button class="popup-btn" onclick="App.openDetail(${report.id})">View Details →</button>
       ${actionBtn}
     </div>`;
@@ -110,7 +117,7 @@ const MapEngine = (() => {
     });
   }
 
-  // ── Update a single marker's popup (after claim/resolve) ──
+  // ── Update a single marker's popup ──
   function refreshMarkerPopup(report) {
     markersLayer.eachLayer(layer => {
       const latlng = layer.getLatLng();
